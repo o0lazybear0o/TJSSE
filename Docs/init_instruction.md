@@ -40,3 +40,21 @@ Details: [Django 安装 - 请选择安装官方正式发布的版本](http://pyt
 	`pip install PyMySQL`
 	
 	[安装及使用Details](https://www.robberphex.com/2013/12/254)
+
+##数据库建立连接.
+1. git clone 代码
+2. 创建如下数据库
+
+    'NAME': 'TJSSE' -- 数据库名称
+
+    'USER': 'root',
+
+    'PASSWORD': 'o0lazybear0o',
+
+    'HOST': '127.0.0.1',
+
+    'PORT': '3306'
+    
+3. 在项目目录执行`python3 manage.py makemigration accounts`
+
+    `python3 manage.py migrate`
