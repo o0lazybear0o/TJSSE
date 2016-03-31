@@ -24,6 +24,7 @@ others && Details：
 	>>> import django
 	
 	>>> print(django.get_version()
+	````
 	 
 Details: [Django 安装 - 请选择安装官方正式发布的版本](http://python.usyiyi.cn/django/intro/install.html)
 
