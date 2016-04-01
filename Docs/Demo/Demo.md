@@ -34,7 +34,7 @@ Project打开之后，页面里包含所有可以公开的信息
 
 ##5.Contact页面
 
-![project-view](img/contact.png)
+![project-view](img/Contact.png)
 
 用表格方式呈现即可，可通过姓名，学生ID查找，可以通过年级过滤
 
@@ -89,7 +89,7 @@ Project打开之后，页面里包含所有可以公开的信息
 
 ####6.3.1 教师端学分管理
 
-![project-view](img/Credit-Professor.png)
+![project-view](img/Credit-professor.png)
 
 按学生名字查看，可以查看所有学生当前的创新学分综合，以及该生所有的创新项目（创新项目名字是一个link，会link到该项目页面，见4.Project页面）
 
