@@ -1,5 +1,8 @@
 # TJSSE
+
 Final Project. A system for TJSSE to manage innovation projects.
+
+## 分工
 
 + 前端 -- [钱煜、陈璐]
 	+ 模板
