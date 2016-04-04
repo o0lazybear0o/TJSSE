@@ -10,5 +10,9 @@
     <ConfirmationsSetting value="0" id="Add" />
     <ConfirmationsSetting value="0" id="Remove" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.4.0 (C:\Python34\python.exe)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.4.3 (E:\profession\python\python3.4\python.exe)" project-jdk-type="Python SDK" />
+>>>>>>> 431169f1fd451e3c16daf7fdb99a7ea545b4b772
 </project>
