@@ -80,12 +80,8 @@ WSGI_APPLICATION = 'TJSSE.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'TJSSE',
-        'USER': 'root',
-        'PASSWORD': 'o0lazybear0o',
-        'HOST': '127.0.0.1',   # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',        # Set to empty string for default.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -127,3 +123,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
 STATIC_URL = '/static/'
+
+SITE_ROOT=os.path.join(os.path.abspath(os.path.dirname(__file__)),'..')
+
+STATIC_ROOT = os.path.join(SITE_ROOT,'static')
+
+STATICFILES_DIRS = (
+    ("css", os.path.join(STATIC_ROOT,'css')),
+    ("js", os.path.join(STATIC_ROOT,'js')),
+    ("images", os.path.join(STATIC_ROOT,'images')),
+)
