@@ -2,11 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-<<<<<<< HEAD
       <module fileurl="file://$PROJECT_DIR$/.idea/TJSSE-master.iml" filepath="$PROJECT_DIR$/.idea/TJSSE-master.iml" />
-=======
-      <module fileurl="file://$PROJECT_DIR$/.idea/TJSSE.iml" filepath="$PROJECT_DIR$/.idea/TJSSE.iml" />
->>>>>>> 431169f1fd451e3c16daf7fdb99a7ea545b4b772
     </modules>
   </component>
 </project>
