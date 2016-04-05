@@ -25,6 +25,7 @@ urlpatterns = [
     url(r'^$', views.homepage, name='home'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^login/$', accounts.views.login),
+    url(r'^logout/$', accounts.views.logout),
     url(r'^news/', include('news.urls')),
     url(r'^project/', include('project.urls')),
 ]
