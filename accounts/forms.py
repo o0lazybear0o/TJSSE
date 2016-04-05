@@ -10,6 +10,7 @@ class LoginForm(forms.Form):
             attrs={
                 'class':"form-control",
                 'placeholder':"UserName",
+                'style':"width: 100%",
             }
         ),
     )
@@ -21,6 +22,7 @@ class LoginForm(forms.Form):
             attrs={
                 'class':"form-control",
                 'placeholder':"Password",
+                'style':"width: 100%",
             }
         ),
     )

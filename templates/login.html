@@ -1,21 +1,26 @@
 {% extends "base.html" %}
 
 {% block maincontent %}
+    <div class="container padded">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-6 login">
+                {% if password_is_wrong %}
+                    <div class="alert alert-dismissible alert-danger">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                        <strong>Error!</strong> Password is wrong!
+                    </div>
+                {% endif %}
 
-    {% if password_is_wrong %}
-        <div class="alert alert-dismissible alert-danger">
-            button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                aria-hidden="true">&times;</span></button>
-            <strong>Error!</strong> Password is wrong!
+                <div class="container col-lg-8 ">
+                    <form class="form-horizontal" action="" method="post">
+                        {% csrf_token %}
+                        {{ form }}
+                        <hr>
+                        <button type="submit" class="btn btn-default">Sign in</button>
+                    </form>
+                </div>
+            </div>
         </div>
-    {% endif %}
-
-    <div class="container ">
-        <form class="form-horizontal col-md-4 col-md-offset-4" action="" method="post">
-            {% csrf_token %}
-            {{ form}}
-            <hr>
-            <button type="submit" class="btn btn-default">Sign in</button>
-        </form>
     </div>
 {% endblock %}

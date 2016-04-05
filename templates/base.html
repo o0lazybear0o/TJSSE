@@ -9,6 +9,7 @@
     <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" type="text/css">
     <link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}" type="text/css">
+    <link rel="stylesheet" href="{% static "css/customstyle.css" %}" type="text/css">
     {% block extra_head %}{% endblock %}
 </head>
 <body>
@@ -72,30 +73,30 @@
 </nav>
 
 {% block maincontent %}
-<div class="container" style="margin-top: 60px;">
-    <div class="row m-top-xs-60">
-        <div class="container col-md-8">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {% block content %}
-                    {% endblock %}
+    <div class="container" style="margin-top: 60px;">
+        <div class="row m-top-xs-60">
+            <div class="container col-md-8">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% block content %}
+                        {% endblock %}
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="container col-md-4">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    {% block sidebar %}
-                    {% endblock %}
+            <div class="container col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        {% block sidebar %}
+                        {% endblock %}
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
 {% endblock %}
 
-<footer style="padding: 30px;margin-top: 70px;border-top: 1px solid #e5e5e5;">
+<footer>
     <ul class="list-inline text-center">
         <li><a href="#">Copy Right</a></li>
         <li><a href="#">Contact Us</a></li>
