@@ -1,0 +1,44 @@
+footer{
+    padding: 30px;
+    margin-top: 70px;
+    border-top: 1px solid #e5e5e5;
+}
+
+html, body {
+    color: #505050;
+    line-height: 1.75em;
+    background: #ebebeb;
+    position: relative;
+    font-family: "Helvetica Neue", Helvetica, Arial, "Hiragino Sans GB", "Hiragino Sans GB W3", "WenQuanYi Micro Hei", "Microsoft YaHei UI", "Microsoft YaHei", sans-serif;
+}
+
+.navbar-default{
+    background: #ffffff;
+    border-top: 1px solid #ebebeb;
+    margin-bottom: 35px;
+    border-bottom: 2px solid #e1e1e1;
+}
+
+.main-content{
+    margin-top: 90px;
+}
+
+.sidebar {
+    background: #ffffff;
+    padding: 21px 30px;
+    position: relative;
+}
+
+.panel-card {
+    padding: 35px;
+    background: #ffffff;
+    margin-bottom: 35px;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn {
+    border: none!important;
+    order-radius: 2px;
+    background-image: none;
+}
