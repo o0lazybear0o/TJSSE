@@ -9,18 +9,19 @@
         {% block userinfobase %}
         {% endblock userinfobase %}
     </div>
-
 {% endblock contentbase %}
+
 {% block sidebarbase %}
     <div class="panel-card">
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" id="basic-info"><a href="#">Basic Info</a></li>
-            <li role="presentation" id="change-info"><a href="/accounts/info/change_info">Change Info</a></li>
-            <li role="presentation" id="change-password"><a href="#">Change Password</a></li>
+            <li role="presentation" id="info"><a href="/accounts/info">Basic Info</a></li>
+            <li role="presentation" id="change_info"><a href="/accounts/info/change_info">Change Info</a></li>
+            <li role="presentation" id="change_password"><a href="/accounts/info/change_password">Change Password</a></li>
         </ul>
     </div>
 
     <script>
-        $('#change-password').addClass("active");
+        list = document.location.href.split("/");
+        $('#'+list[list.length - 2]).addClass("active");
     </script>
 {% endblock sidebarbase %}
