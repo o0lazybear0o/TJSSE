@@ -22,9 +22,9 @@ import accounts.views
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.homepage, name='home'),
+    url(r'^logout/$', accounts.views.logout, name='logout'),
+    url(r'^login/$', accounts.views.login, name='login'),
     url(r'^accounts/', include('accounts.urls')),
-    url(r'^login/$', accounts.views.login),
-    url(r'^logout/$', accounts.views.logout),
     url(r'^news/', include('news.urls')),
     #url(r'^project/', include('project.urls')),
 ]

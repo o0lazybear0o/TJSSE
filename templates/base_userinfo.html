@@ -1,8 +1,10 @@
 {% extends "base.html" %}
 
+{% load staticfiles %}
+
 {% block contentbase %}
     <div class="panel-card">
-        <h1>{{ user.userprofile.get_full_name }}</h1>
+        <h1>{{ user.first_name }} {{ user.last_name }}</h1>
         <hr>
         {% block userinfobase %}
         {% endblock userinfobase %}
@@ -12,9 +14,13 @@
 {% block sidebarbase %}
     <div class="panel-card">
         <ul class="nav nav-pills nav-stacked">
-            <li role="presentation" class="active"><a href="#">Basic Info</a></li>
-            <li role="presentation"><a href="#">Change Info</a></li>
-            <li role="presentation"><a href="#">Change Password</a></li>
+            <li role="presentation" id="basic-info"><a href="#">Basic Info</a></li>
+            <li role="presentation" id="change-info"><a href="#">Change Info</a></li>
+            <li role="presentation" id="change-password"><a href="#">Change Password</a></li>
         </ul>
     </div>
+
+    <script>
+        $('#change-password').addClass("active");
+    </script>
 {% endblock sidebarbase %}
