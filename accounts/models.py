@@ -7,7 +7,7 @@ class UserProfile(models.Model):
     TYPE_STUDENT = "STUDENT"
     TYPE_PROFESSOR = "PROFESSOR"
     type = models.CharField(max_length=10)
-    grade = models.IntegerField()
+    grade = models.IntegerField(null=True)
     MAJOR_CHOICES = [
         (0, '暂无'),
         (1, '软件技术与管理'),
@@ -17,7 +17,7 @@ class UserProfile(models.Model):
         (5, '其他')
     ]
     major = models.IntegerField(choices=MAJOR_CHOICES, default=0)
-    phone = models.CharField(max_length=11)
+    phone = models.CharField(max_length=11, blank=True)
 
     def __str__(self):
         return self.user.get_username()
@@ -27,6 +27,13 @@ class UserProfile(models.Model):
             return self.user.get_full_name()
         else:
             return self.user.get_username()
+
+    def is_profile_completed(self):
+        if (len(self.user.first_name) == 0) or (len(self.user.last_name) == 0) or (len(self.user.email) == 0):
+            return False
+        if (self.type == UserProfile.TYPE_STUDENT) and (not self.grade):
+            return  False
+        return True
 
     def create_student(*args, **kwargs):
         return User(type=UserProfile.TYPE_STUDENT, *args, **kwargs)

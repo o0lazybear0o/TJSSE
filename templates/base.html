@@ -61,7 +61,7 @@
                         {{ user.userprofile.get_full_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/accounts/info/">Basic Info</a></li>
-                        <li><a href="/accounts/change_password">Change Password</a></li>
+                        <li><a href="/accounts/info/change_password">Change Password</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">My Project</a></li>
                         <li><a href="#">New Project</a></li>
@@ -78,7 +78,7 @@
                         {{ user.userprofile.get_full_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="/accounts/info/">Basic Info</a></li>
-                        <li><a href="/accounts/change_password">Change Password</a></li>
+                        <li><a href="/accounts/info/change_password">Change Password</a></li>
                         <li role="separator" class="divider"></li>
                         <li><a href="#">Student Project</a></li>
                         <li role="separator" class="divider"></li>
@@ -93,22 +93,28 @@
 
 <div class="main-content container">
     {% block mainbase %}
-        <div class="row m-top-xs-60">
-            <div class="container col-md-8">
+        <div class="row ">
+            <div class="container col-sm-8">
                 <div>
-                    <div class="panel-body">
-                        {% block contentbase %}
-                        {% endblock contentbase %}
-                    </div>
+                    {% block contentbase %}
+                    {% endblock contentbase %}
+
                 </div>
             </div>
-            <div class="container col-md-4">
+
+            <div class="container col-sm-4 sidebar">
                 <div>
-                    <div class="panel-body">
-                        {% block sidebarbase %}
-                        {% endblock sidebarbase %}
-                    </div>
+
+                    {% if user.is_authenticated and not user.userprofile.is_profile_completed %}
+                        <div class="panel-card">
+                            <p>您的资料尚未完成, 请完善您的<a href="/accounts/info">个人资料</a></p>
+                        </div>
+                    {% endif %}
+
+                    {% block sidebarbase %}
+                    {% endblock sidebarbase %}
                 </div>
+
             </div>
         </div>
 

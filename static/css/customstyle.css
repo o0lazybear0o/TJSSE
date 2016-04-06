@@ -24,15 +24,14 @@ html, body {
 }
 
 .sidebar {
-    background: #ffffff;
-    padding: 21px 30px;
+    padding-left: 30px;
     position: relative;
 }
 
 .panel-card {
     padding: 35px;
     background: #ffffff;
-    margin-bottom: 35px;
+    margin-bottom: 50px;
     position: relative;
     overflow: hidden;
 }

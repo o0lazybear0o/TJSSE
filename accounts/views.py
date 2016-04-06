@@ -81,10 +81,22 @@ def change_password_view(request):
 
 # Page for user info
 @login_required(login_url='/accounts/login/')
+def change_user_info_view(request):
+    if request.method == 'GET':
+        form = forms.ChangeStudentInfoForm()
+        return render(request, 'userinfo_change.html', {'form': form,})
+    else:
+        form = forms.ChangeStudentInfoForm(request.POST)
+        if form.is_valid():
+            old_password = request.POST.get('grade', '')
+            new_password = request.POST.get('major', '')
+            new_password_again = request.POST.get('phone', '')
+            return render(request, 'userinfo_change.html', {'form': form, 'success': True})
+
+@login_required(login_url='/accounts/login/')
 def user_info_view(request):
 
     return render(request, "userinfo_view.html")
-
 
 @login_required(login_url='/accounts/login/')
 def user_project_list_view(request):

@@ -8,6 +8,6 @@ urlpatterns = [
     url(r'^project/$', views.user_project_list_view, name='user_project_list'),
     url(r'^project/(?P<project_id>[0-9]+)/$', views.user_project_detail_view, name='user_project_detail'),
     url(r'^credit/$', views.user_credit_list_view, name='user_credit_list'),
-
-    url(r'^change_password/$', views.change_password_view, name='change_password'),
+    url(r'^info/change_info/$', views.change_user_info_view, name='change_user_info'),
+    url(r'^info/change_password/$', views.change_password_view, name='change_password'),
 ]
