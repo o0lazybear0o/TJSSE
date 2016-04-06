@@ -1,9 +1,16 @@
 {% extends "base_userinfo.html" %}
 
 {% block userinfobase %}
+
+    {% include "template_form_errormessages.html" with form=userform %}
+    {% include "template_form_errormessages.html" with form=userprofileform %}
+    {% if success %}
+        {% include "template_successmessage.html" with message="修改成功" %}
+    {% endif %}
     <form class="form-horizontal col-sm-10" action="" method="post">
         {% csrf_token %}
-        {% include "formTemplate.html" %}
+        {% include "formTemplate.html" with form=userform %}
+        {% include "formTemplate.html" with form=userprofileform %}
         <button type="submit" class="btn btn-default ">Submit</button>
     </form>
 {% endblock userinfobase %}
