@@ -25,11 +25,11 @@ class LoginForm(forms.Form):
 class ChangeUserInfoForm(ModelForm):
     first_name = forms.CharField(
         required="True",
-        error_messages={'required': '姓氏'},
+        error_messages={'required': '请输入姓氏'},
     )
     last_name = forms.CharField(
         required="True",
-        error_messages={'required': '名字'},
+        error_messages={'required': '请输入名字'},
     )
     class Meta:
         model = User
@@ -38,7 +38,7 @@ class ChangeUserInfoForm(ModelForm):
 class ChangeStudentInfoForm(ModelForm):
     grade = forms.IntegerField(
         required="True",
-        error_messages={'required': '年级'},
+        error_messages={'required': '请输入年级'},
     )
     class Meta:
         model = UserProfile
