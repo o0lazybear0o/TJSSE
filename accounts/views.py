@@ -1,8 +1,9 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
-from project.models import Project
+from project.models import Project, ProjectType, Project_Student
 from django.template.context import RequestContext
 from django.views import generic
 from accounts import forms
@@ -63,7 +64,7 @@ def change_password_view(request):
                 return render(request, 'change_password.html', {'form': form, 'not_valid': True})
 
             username = request.user.username
-            user = user = auth.authenticate(username=username, password=old_password)
+            user = auth.authenticate(username=username, password=old_password)
 
             if user is not None and user.is_active:
                 if new_password != new_password_again:
@@ -81,7 +82,52 @@ def change_password_view(request):
 
 @login_required(login_url='/accounts/login/')
 def new_project(request):
-    return render(request, 'new_project.html')
+    if request.method == 'GET':
+        form = forms.NewProjectForm()
+        return render(request, 'new_project.html', {'form': form,})
+    else:
+        form = forms.NewProjectForm(request.POST)
+        if form.is_valid():
+            project_type_id = request.POST.get('project_type', '')
+            project_name = request.POST.get('project_name', '')
+            professor_id = request.POST.get('professor', '')
+            partner1_id = request.POST.get('partner1', '')
+            partner2_id = request.POST.get('partner2', '')
+            description = request.POST.get('description', '')
+            project_type = ProjectType.objects.get(id=project_type_id)
+            professor = UserProfile.objects.get(id=professor_id).user
+            if partner1_id != '' and User.objects.filter(username=partner1_id).__len__() == 0:
+                return render(request, 'new_project.html', {'form': form, 'wrong_student_id': True})
+            if partner2_id != '' and User.objects.filter(username=partner2_id).__len__() == 0:
+                return render(request, 'new_project.html', {'form': form, 'wrong_student_id': True})
+            project = Project.objects.create(
+                name=project_name,
+                project_type=project_type,
+                description=description,
+                professor=professor
+            )
+            project.save()
+            Project_Student.objects.create(
+                student=request.user,
+                project=project,
+                is_superuser=True
+            ).save()
+            if partner1_id != '':
+                student = User.objects.get(username=partner1_id)
+                Project_Student.objects.create(
+                    student=student,
+                    project=project,
+                ).save()
+            if partner2_id != '':
+                student = User.objects.get(username=partner2_id)
+                Project_Student.objects.create(
+                    student=student,
+                    project=project,
+                ).save()
+            return render(request, 'new_project.html', {'form': form, 'success': True})
+        else:
+            return render(request, 'new_project.html', {'form': form, 'success': True})
+
 
 # Page for user info
 @login_required(login_url='/accounts/login/')

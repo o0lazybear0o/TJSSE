@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from accounts.models import UserProfile
 from django.contrib.auth.models import User
+from project.models import Project, ProjectType
 
 
 class LoginForm(forms.Form):
@@ -9,61 +10,35 @@ class LoginForm(forms.Form):
         required=True,
         label="UserName",
         error_messages={'required': '请输入用户名'},
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "UserName",
-                'style': "width: 100%",
-            }
-        ),
     )
     password = forms.CharField(
         required=True,
         label="Password",
         error_messages={'required': '请输入密码'},
-        widget=forms.PasswordInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "Password",
-                'style': "width: 100%",
-            }
-        ),
+        widget=forms.PasswordInput(),
     )
 
     def clean(self):
         cleaned_data = super(LoginForm, self).clean()
+
 
 class ChangeStudentInfoForm(ModelForm):
     first_name = forms.CharField(
         required=True,
         label="FirstName",
         error_messages={'required': '请输入名字'},
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "FirstName",
-                'style': "width: 100%",
-            }
-        ),
     )
 
     last_name = forms.CharField(
         required=True,
         label="LastName",
         error_messages={'required': '请输入姓氏'},
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "LastName",
-                'style': "width: 100%",
-            }
-        ),
     )
 
     email = forms.EmailField(
         required=True,
         label="E-mail",
-        error_messages={'required': '请输入姓氏'},
+        error_messages={'required': '请输入邮箱地址'},
     )
 
     class Meta:
@@ -71,42 +46,63 @@ class ChangeStudentInfoForm(ModelForm):
         fields = ['grade', 'major', 'phone']
 
 
-
 class ChangePasswordForm(forms.Form):
     old_password = forms.CharField(
-        required=False,
+        required=True,
         label="Old Password",
-        widget=forms.PasswordInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "Old Password",
-                'style': "width: 100%",
-            }
-        ),
+        error_messages={'required': '请输入旧密码'},
+        widget=forms.PasswordInput(),
     )
     new_password = forms.CharField(
-        required=False,
+        required=True,
         label="New Password",
-        widget=forms.PasswordInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "New Password",
-                'style': "width: 100%",
-            }
-        ),
+        error_messages={'required': '请再次输入新密码'},
+        widget=forms.PasswordInput(),
     )
     new_password_again = forms.CharField(
-        required=False,
+        required=True,
         label="New Password Again",
-        error_messages="",
-        widget=forms.PasswordInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': "New Password Again",
-                'style': "width: 100%",
-            }
-        ),
+        error_messages={'required': '请再次输入新密码'},
+        widget=forms.PasswordInput(),
     )
 
     def clean(self):
         cleaned_data = super(ChangePasswordForm, self).clean()
+
+
+class NewProjectForm(forms.Form):
+    project_type = forms.ModelChoiceField(
+        queryset=None,
+        required=True,
+        label='Project Type',
+        error_messages={'required': '请选择项目类型'}
+    )
+    project_name = forms.CharField(
+        required=True,
+        label="Project Name",
+        error_messages={'required': '请输入项目名称'},
+    )
+    professor = forms.ModelChoiceField(
+        queryset=None,
+        required=True,
+        label='Professor',
+        error_messages={'required': '请选择导师'})
+    partner1 = forms.CharField(
+        required=False,
+        label="Partner ID (Optional)",
+    )
+    partner2 = forms.CharField(
+        required=False,
+        label="Partner ID (Optional)",
+    )
+    description = forms.CharField(
+        required=False,
+        label="Description",
+        widget=forms.Textarea(
+        ),
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewProjectForm, self).__init__(*args, **kwargs)
+        self.fields['professor'].queryset = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+        self.fields['project_type'].queryset = ProjectType.objects.filter(isopening=True)

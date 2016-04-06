@@ -4,26 +4,11 @@
 
     <div class="row">
         <div class="col-sm-6 col-sm-offset-3 login">
-            {% if username_not_valid %}
-                <div class="alert alert-dismissible alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <strong>Error!</strong> 用户名不能为空!
-                </div>
-            {% endif %}
-            {% if password_not_valid %}
-                <div class="alert alert-dismissible alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <strong>Error!</strong> 密码不能为空!
-                </div>
-            {% endif %}
+
+            {% include "template_form_errormessages.html" %}
+
             {% if password_is_wrong %}
-                <div class="alert alert-dismissible alert-danger">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                            aria-hidden="true">&times;</span></button>
-                    <strong>Error!</strong> 密码错误!
-                </div>
+                {% include "template_errormessage.html" with error="密码错误" %}
             {% endif %}
 
             <div class="container col-sm-8 col-sm-offset-2  ">
