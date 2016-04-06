@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import ModelForm
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Credit
 from django.contrib.auth.models import User
 
 
@@ -67,3 +67,25 @@ class ChangePasswordForm(forms.Form):
 
     def clean(self):
         cleaned_data = super(ChangePasswordForm, self).clean()
+
+
+class NewCreditForm(forms.Form):
+    credit_type = forms.ChoiceField(
+        choices=Credit.CREDIT_TYPE_CHOICES,
+        required=True,
+        label='Credit Type',
+        error_messages={'required': '请选择认定类型'}
+    )
+    credit_value = forms.IntegerField(
+        required=True,
+        label="Credit Value",
+        error_messages={'required': '请输入学分分值'},
+    )
+    credit_name = forms.CharField(
+        required=True,
+        label="Credit Name",
+        error_messages={'required': '请输入学分名称'},
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewCreditForm, self).__init__(*args, **kwargs)

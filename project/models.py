@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from accounts.models import UserProfile
 import datetime
 
+
 # Create your models here.
 
 class ProjectType(models.Model):
@@ -20,12 +21,13 @@ class ProjectType(models.Model):
         (TYPE_SECOLLEGE, '院创'),
         (TYPE_ELSE, '其他'),
     ]
-    type = models.IntegerField('认定类型',choices=TYPE_CHOICES)
+    type = models.IntegerField('认定类型', choices=TYPE_CHOICES)
 
     isopening = models.BooleanField('是否开放中', default=True)
     starttime = models.DateField(default=datetime.date.today)
     endtime = models.DateField()
     note = models.CharField(max_length=300, blank=True)
+
 
 class Project(models.Model):
     name = models.CharField(max_length=30)
@@ -55,8 +57,8 @@ class Project(models.Model):
     note = models.CharField(max_length=300, blank=True)
 
     def save(self, *args, **kwargs):
-        if self.professor.UserProfile.type != UserProfile.TYPE_PROFESSOR:
-            return # Yoko shall never have her own blog!
+        if self.professor.userprofile.type != UserProfile.TYPE_PROFESSOR:
+            return  # Yoko shall never have her own blog!
         else:
             super(Project, self).save(*args, **kwargs)
 
@@ -65,11 +67,13 @@ class Project_Student(models.Model):
     student = models.ForeignKey(User)
     project = models.ForeignKey(Project)
     is_superuser = models.BooleanField(default=False)
+
     def save(self, *args, **kwargs):
-        if self.student.UserProfile.type != UserProfile.TYPE_STUDENT:
-            return # Yoko shall never have her own blog!
+        if self.student.userprofile.type != UserProfile.TYPE_STUDENT:
+            return  # Yoko shall never have her own blog!
         else:
             super(Project_Student, self).save(*args, **kwargs)
+
 
 class Document(models.Model):
     project = models.ForeignKey(Project)
@@ -85,7 +89,7 @@ class Document(models.Model):
         (DOCTYPE_FINAL, '结题文档'),
         (DOCTYPE_ELSE, '其他'),
     ]
-    type = models.IntegerField('文档类型',choices=DOCTYPE_CHOICES)
+    type = models.IntegerField('文档类型', choices=DOCTYPE_CHOICES)
 
     STATUS_PENDING = 0
     STATUS_FAIL = 1
@@ -95,11 +99,12 @@ class Document(models.Model):
         (STATUS_FAIL, '未通过'),
         (STATUS_PASS, '已通过'),
     ]
-    status = models.IntegerField('审核状态',choices=STATUS_CHOICES)
+    status = models.IntegerField('审核状态', choices=STATUS_CHOICES)
 
     date = models.DateField(default=datetime.date.today)
     filepath = models.FilePathField()
     note = models.CharField(max_length=300, blank=True)
+
 
 class Fund(models.Model):
     project = models.ForeignKey(Project)

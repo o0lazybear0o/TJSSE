@@ -32,7 +32,7 @@ class UserProfile(models.Model):
         if (len(self.user.first_name) == 0) or (len(self.user.last_name) == 0) or (len(self.user.email) == 0):
             return False
         if (self.type == UserProfile.TYPE_STUDENT) and (not self.grade):
-            return  False
+            return False
         return True
 
     def create_student(*args, **kwargs):
@@ -44,7 +44,7 @@ class UserProfile(models.Model):
 
 class Credit(models.Model):
     student = models.ForeignKey(User)
-    date = models.DateField(auto_now=True)
+    date = models.DateTimeField(auto_now=True)
     CREDIT_TYPE_CHOICES = [
         (0, '竞赛获奖'),
         (1, '学术论文'),
@@ -56,7 +56,13 @@ class Credit(models.Model):
     name = models.CharField('名称', max_length=300)
 
     def save(self, *args, **kwargs):
-        if self.student.UserProfile.type != UserProfile.TYPE_STUDENT:
+        if self.student.userprofile.type != UserProfile.TYPE_STUDENT:
             return  # Yoko shall never have her own blog!
         else:
             super(Credit, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return str(self.student.userprofile)+" name:" + self.name + " value: "+str(self.value)
+
+    class Meta:
+        ordering = ['date']

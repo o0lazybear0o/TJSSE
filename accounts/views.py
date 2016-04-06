@@ -6,7 +6,7 @@ from project.models import Project
 from django.template.context import RequestContext
 from django.views import generic
 from accounts import forms
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Credit
 
 
 # Create your views here.
@@ -17,7 +17,7 @@ def login(request):
     else:
         if request.method == 'GET':
             form = forms.LoginForm
-            return render_to_response('login.html', RequestContext(request, {'form': form,}))
+            return render_to_response('login.html', RequestContext(request, {'form': form, }))
         else:
             form = forms.LoginForm(request.POST)
             if form.is_valid():
@@ -51,7 +51,7 @@ def logout(request):
 def change_password_view(request):
     if request.method == 'GET':
         form = forms.ChangePasswordForm
-        return render(request, 'change_password.html', {'form': form,})
+        return render(request, 'change_password.html', {'form': form, })
     else:
         form = forms.ChangePasswordForm(request.POST)
         if form.is_valid():
@@ -78,16 +78,18 @@ def change_password_view(request):
         else:
             return render(request, 'change_password.html', {'form': form, 'not_valid': True})
 
+
 @login_required(login_url='/accounts/login/')
 def new_project(request):
     return render(request, 'new_project.html')
+
 
 # Page for user info
 @login_required(login_url='/accounts/login/')
 def change_user_info_view(request):
     if request.method == 'GET':
         form = forms.ChangeStudentInfoForm()
-        return render(request, 'userinfo_change.html', {'form': form,})
+        return render(request, 'userinfo_change.html', {'form': form, })
     else:
         form = forms.ChangeStudentInfoForm(request.POST)
         if form.is_valid():
@@ -99,7 +101,6 @@ def change_user_info_view(request):
 
 @login_required(login_url='/accounts/login/')
 def user_info_view(request):
-
     return render(request, "userinfo_view.html")
 
 
@@ -120,6 +121,52 @@ def user_project_detail_view(request, project_id):
 
 @login_required(login_url='/accounts/login/')
 def user_credit_list_view(request):
-    response = "Hi. This is the credit list page for user %s"
-    username = request.user.get_username()
-    return HttpResponse(response % username)
+    credit_list = request.user.credit_set.all()
+    return render(request, 'credit.html', {'credit_list': credit_list})
+
+
+@login_required(login_url='/accounts/login/')
+def new_credit(request):
+    if request.method == 'GET':
+        form = forms.NewCreditForm()
+        return render(request, 'new_credit.html', {'form': form, })
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit_type = request.POST.get("credit_type", 0)
+            credit_name = request.POST.get("credit_name", "")
+            credit_value = request.POST.get("credit_value", 0)
+
+            credit_now = Credit.objects.create(
+                student=request.user,
+                credit_type=int(credit_type),
+                value=int(credit_value),
+                name=credit_name
+            )
+            credit_now.save()
+            return render(request, 'new_credit.html', {'form': form, 'success': True})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def edit_credit(request, id):
+    if request.method == 'GET':
+        credit = Credit.objects.get(id=int(id))
+        form = forms.NewCreditForm({
+            'credit_type': credit.credit_type,
+            'credit_name': credit.name,
+            'credit_value': credit.value
+        })
+        return render(request, 'new_credit.html', {'form': form})
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit = Credit.objects.get(id=int(id))
+            credit.credit_type = int(request.POST.get("credit_type", 0))
+            credit.name = request.POST.get("credit_name", "")
+            credit.value = int(request.POST.get("credit_value", 0))
+            credit.save()
+            return render(request, 'new_credit.html', {'form': form, 'success': True})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
