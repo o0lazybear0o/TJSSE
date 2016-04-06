@@ -170,3 +170,4 @@ def edit_credit(request, id):
             return render(request, 'new_credit.html', {'form': form, 'success': True})
         else:
             return render(request, 'new_credit.html', {'form': form})
+
