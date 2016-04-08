@@ -1,0 +1,29 @@
+{% extends 'base_adminweb.html' %}
+
+{% load staticfiles %}
+
+{% block adminweb_base %}
+
+    {% include "template_form_errormessages.html" %}
+
+    {% if wrong_start_id %}
+        {% include "template_errormessage.html" with error="请输入起始学号" %}
+    {% endif %}
+    {% if wrong_end_id %}
+        {% include "template_errormessage.html" with error="请输入末尾学号" %}
+    {% endif %}
+    {% if wrong_password %}
+        {% include "template_errormessage.html" with error="请输入初始密码" %}
+    {% endif %}
+
+    {% if success %}
+        {% include "template_successmessage.html" with message="修改成功" %}
+    {% endif %}
+
+    <form class="form-horizontal col-sm-10" action="" method="post">
+        {% csrf_token %}
+        {% include "formTemplate.html" %}
+        <button type="submit" class="btn btn-default ">Submit</button>
+    </form>
+
+{% endblock adminweb_base %}

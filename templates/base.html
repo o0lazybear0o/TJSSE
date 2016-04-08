@@ -49,7 +49,7 @@
         </ul>
         <ul class="nav navbar-nav navbar-right">
             {% if user.is_authenticated and user.is_superuser %}
-                <li><a href="/admin/">admin-web</a></li>
+                <li><a href="/accounts/adminweb">admin-web</a></li>
             {% endif %}
 
             {% if not user.is_authenticated %}
@@ -63,10 +63,10 @@
                         <li><a href="/accounts/info/">Basic Info</a></li>
                         <li><a href="/accounts/info/change_info">Change Info</a></li>
                         <li><a href="/accounts/info/change_password">Change Password</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li class="divider"></li>
                         <li><a href="#">My Project</a></li>
                         <li><a href="/accounts/new_project">New Project</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li class="divider" style="height: 1.2px"></li>
                         <li><a href="#">My Credit</a></li>
                         <li><a href="#">New Credit</a></li>
                     </ul>
@@ -80,9 +80,9 @@
                     <ul class="dropdown-menu">
                         <li><a href="/accounts/info/">Basic Info</a></li>
                         <li><a href="/accounts/info/change_password">Change Password</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li class="divider"></li>
                         <li><a href="#">Student Project</a></li>
-                        <li role="separator" class="divider"></li>
+                        <li class="divider"></li>
                         <li><a href="#">Student Credit</a></li>
                     </ul>
                 </li>

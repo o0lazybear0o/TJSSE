@@ -1,6 +1,6 @@
-{% extends "base_maincontent.html" %}
+{% extends "base_userproject.html" %}
 
-{% block maincontentbase %}
+{% block userprojectbase %}
     {% include "template_form_errormessages.html" %}
 
     {% if wrong_student_id %}
@@ -8,8 +8,11 @@
     {% endif %}
 
     {% if success %}
-        {% include "template_successmessage.html" with message="修改成功" %}
+        {% include "template_successmessage.html" with message="项目申请成功" %}
     {% endif %}
+
+    <h1>Start a new Project</h1>
+    <hr>
 
     <form class="form-horizontal col-sm-10" action="" method="post">
         {% csrf_token %}
@@ -17,4 +20,4 @@
         <button type="submit" class="btn btn-default ">Submit</button>
     </form>
 
-{% endblock maincontentbase %}
+{% endblock userprojectbase %}

@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block contentbase %}
+    <div class="panel-card">
+        <h1>Admin Web</h1>
+        <p>See more details <a href="/admin/">here ...</a></p>
+        <hr>
+        {% block adminweb_base %}
+        {% endblock adminweb_base %}
+    </div>
+{% endblock contentbase %}
+
+{% block sidebarbase %}
+    <div class="panel-card">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" id="new_student"><a href="/accounts/adminweb/new_student">New Student</a></li>
+            <li role="presentation" id="new_professor"><a href="/accounts/adminweb/new_professor">New Professor</a></li>
+            <li role="presentation" id="project_type"><a href="/accounts/adminweb/project_type">Project Type</a></li>
+            <li role="presentation" id="new_news"><a href="/accounts/adminweb/new_news">New News</a></li>
+            <li role="presentation" id="change_project_status"><a href="/accounts/adminweb/change_project_status">Change Project Status</a></li>
+        </ul>
+    </div>
+
+    <script>
+        list = document.location.href.split("/");
+        $('#'+list[list.length - 2]).addClass("active");
+    </script>
+{% endblock sidebarbase %}

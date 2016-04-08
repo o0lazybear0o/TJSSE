@@ -7,7 +7,6 @@ from project.models import Project, ProjectType, Project_Student
 from django.template.context import RequestContext
 from django.views import generic
 from accounts import forms
-from accounts.forms import ModelForm
 from accounts.models import UserProfile
 
 
@@ -15,7 +14,7 @@ from accounts.models import UserProfile
 # Pag for log in
 def login(request):
     if request.user.is_authenticated():
-        return redirect('/accounts/%s/' % request.user.id)
+        return redirect('/accounts/info')
     else:
         if request.method == 'GET':
             form = forms.LoginForm
@@ -35,7 +34,7 @@ def login(request):
 
                 if user is not None and user.is_active:
                     auth.login(request, user)
-                    return render(request, 'base.html')
+                    return HttpResponseRedirect('../')
                 else:
                     return render(request, 'login.html', {'form': form, 'password_is_wrong': True})
             else:
@@ -127,40 +126,29 @@ def new_project(request):
                 ).save()
             return render(request, 'new_project.html', {'form': form, 'success': True})
         else:
-            return render(request, 'new_project.html', {'form': form, 'success': True})
-    return render(request, 'new_project.html')
+            return render(request, 'new_project.html', {'form': form})
 
 
 # Page for user info
 @login_required(login_url='/accounts/login/')
 def change_user_info_view(request):
     if request.method == 'GET':
-        if (request.user.userprofile.type == UserProfile.TYPE_STUDENT):
-            userprofileform = forms.ChangeStudentInfoForm(instance=request.user.userprofile)
-        else:
-            userprofileform = forms.ChangeProfessorInfoForm(instance=request.user.userprofile)
-        userform = forms.ChangeUserInfoForm(instance=request.user)
-        return render(request, 'userinfo_change.html', {'userform': userform, 'userprofileform': userprofileform,})
+        form = forms.ChangeStudentInfoForm()
+        return render(request, 'userinfo_change.html', {'form': form,})
     else:
-        if (request.user.userprofile.type == UserProfile.TYPE_STUDENT):
-            userprofileform = forms.ChangeStudentInfoForm(request.POST, instance=request.user.userprofile)
-        else:
-            userprofileform = forms.ChangeProfessorInfoForm(request.POST, instance=request.user.userprofile)
-        userform = forms.ChangeUserInfoForm(request.POST, instance=request.user)
-        if userform.is_valid() and userprofileform.is_valid():
-            userprofileform.save()
-            userform.save()
-            return render(request, 'userinfo_change.html',
-                          {'userform': userform, 'userprofileform': userprofileform, 'success': True})
-        else:
-            return render(request, 'userinfo_change.html',
-                          {'userform': userform, 'userprofileform': userprofileform, 'not_valid': True})
-
+        form = forms.ChangeStudentInfoForm(request.POST)
+        if form.is_valid():
+            old_password = request.POST.get('grade', '')
+            new_password = request.POST.get('major', '')
+            new_password_again = request.POST.get('phone', '')
+            return render(request, 'userinfo_change.html', {'form': form, 'success': True})
 
 
 @login_required(login_url='/accounts/login/')
 def user_info_view(request):
-    return render(request, "userinfo_view.html")
+    user = request.user
+    major = user.userprofile.MAJOR_CHOICES[user.userprofile.major][1]
+    return render(request, "userinfo_view.html", {'user': user, 'major': major})
 
 
 @login_required(login_url='/accounts/login/')
@@ -183,3 +171,8 @@ def user_credit_list_view(request):
     response = "Hi. This is the credit list page for user %s"
     username = request.user.get_username()
     return HttpResponse(response % username)
+
+
+# @login_required
+# def my_project(request):
+#     return render(request, 'user_myproject')

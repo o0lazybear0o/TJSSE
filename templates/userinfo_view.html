@@ -2,4 +2,29 @@
 
 {% block userinfobase %}
 
+    <div class="container col-sm-10">
+        <ul class="list-unstyled">
+            <li>
+                <div class="col-sm-4" align="right">
+                    <p><strong>First Name:</strong></p>
+                    <p><strong>Last Name:</strong></p>
+                    <p><strong>Grade:</strong></p>
+                    <p><strong>Major:</strong></p>
+                    <p><strong>Phone:</strong></p>
+                    <p><strong>Email:</strong></p>
+                </div>
+            </li>
+            <li>
+                <div class="col-sm-8">
+                    <p><strong>{{ user.first_name }}</strong></p>
+                    <p><strong>{{ user.last_name }}</strong></p>
+                    <p><strong>{{ user.userprofile.grade }}</strong></p>
+                    <p><strong>{{ major }}</strong></p>
+                    <p><strong>{{ user.userprofile.phone }}</strong></p>
+                    <p><strong>{{ user.email }}</strong></p>
+                </div>
+            </li>
+        </ul>
+    </div>
+
 {% endblock userinfobase %}
