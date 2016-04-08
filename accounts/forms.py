@@ -22,34 +22,33 @@ class LoginForm(forms.Form):
         cleaned_data = super(LoginForm, self).clean()
 
 
-class ChangeStudentInfoForm(ModelForm):
+class ChangeUserInfoForm(ModelForm):
     first_name = forms.CharField(
-        required=True,
+        required="True",
         error_messages={'required': '请输入姓氏'},
-        label="FirstName",
     )
-
     last_name = forms.CharField(
-        required=True,
+        required="True",
         error_messages={'required': '请输入名字'},
-        label="LastName",
     )
-
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email']
 
 class ChangeStudentInfoForm(ModelForm):
     grade = forms.IntegerField(
         required="True",
         error_messages={'required': '请输入年级'},
     )
-    email = forms.EmailField(
-        required=True,
-        label="E-mail",
-        error_messages={'required': '请输入邮箱地址'},
-    )
-
     class Meta:
         model = UserProfile
-        fields = ['grade', 'major', 'phone']
+        exclude = ['user', 'type']
+
+
+class ChangeProfessorInfoForm(ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['phone']
 
 
 class ChangePasswordForm(forms.Form):
