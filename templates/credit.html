@@ -1,0 +1,28 @@
+{% extends "base_maincontent.html" %}
+
+{% block maincontentbase %}
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>Credit Type</th>
+          <th>Value</th>
+          <th>Name</th>
+          <th>Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for credit in credit_list %}
+            <tr>
+                <td>{{ credit.get_credit_type_display}}</td>
+                <td>{{ credit.value }}</td>
+                <td>{{ credit.name  }}</td>
+                <td>{{ credit.date }}</td>
+                <td><a href="{% url 'edit_credit' id=credit.id %}">Edit</a> </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+{% endblock maincontentbase %}

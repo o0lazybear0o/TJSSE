@@ -152,7 +152,7 @@ def change_user_info_view(request):
                           {'userform': userform, 'userprofileform': userprofileform, 'success': True})
         else:
             return render(request, 'userinfo_change.html',
-                  {'userform': userform, 'userprofileform': userprofileform, 'not_valid': True})
+                          {'userform': userform, 'userprofileform': userprofileform, 'not_valid': True})
 
 
 @login_required(login_url='/accounts/login/')
@@ -183,6 +183,59 @@ def user_credit_list_view(request):
     username = request.user.get_username()
     return HttpResponse(response % username)
 
+
 # @login_required
 # def my_project(request):
 #     return render(request, 'user_myproject')
+
+@login_required(login_url='/accounts/login/')
+def new_credit(request):
+    if request.method == 'GET':
+        form = forms.NewCreditForm()
+        return render(request, 'new_credit.html', {'form': form, })
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit_type = request.POST.get("credit_type", 0)
+            credit_name = request.POST.get("credit_name", "")
+            credit_value = request.POST.get("credit_value", 0)
+
+            credit_now = Credit.objects.create(
+                student=request.user,
+                credit_type=int(credit_type),
+                value=int(credit_value),
+                name=credit_name
+            )
+            credit_now.save()
+            return render(request, 'new_credit.html', {'form': form, 'success': True})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def edit_credit(request, id):
+    if request.method == 'GET':
+        credit = Credit.objects.get(id=int(id))
+        form = forms.NewCreditForm({
+            'credit_type': credit.credit_type,
+            'credit_name': credit.name,
+            'credit_value': credit.value
+        })
+        return render(request, 'new_credit.html', {'form': form})
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit = Credit.objects.get(id=int(id))
+            credit.credit_type = int(request.POST.get("credit_type", 0))
+            credit.name = request.POST.get("credit_name", "")
+            credit.value = int(request.POST.get("credit_value", 0))
+            credit.save()
+            return render(request, 'new_credit.html', {'form': form, 'success': True})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def user_credit_list_view(request):
+    credit_list = request.user.credit_set.all()
+    return render(request, 'credit.html', {'credit_list': credit_list})

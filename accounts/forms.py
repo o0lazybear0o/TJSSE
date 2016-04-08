@@ -111,3 +111,20 @@ class NewProjectForm(forms.Form):
         super(NewProjectForm, self).__init__(*args, **kwargs)
         self.fields['professor'].queryset = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
         self.fields['project_type'].queryset = ProjectType.objects.filter(isopening=True)
+
+
+class NewCreditForm(forms.Form):
+
+    credit_value = forms.IntegerField(
+        required=True,
+        label="Credit Value",
+        error_messages={'required': '请输入学分分值'},
+    )
+    credit_name = forms.CharField(
+        required=True,
+        label="Credit Name",
+        error_messages={'required': '请输入学分名称'},
+    )
+
+    def __init__(self, *args, **kwargs):
+        super(NewCreditForm, self).__init__(*args, **kwargs)

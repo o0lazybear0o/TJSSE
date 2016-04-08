@@ -1,0 +1,16 @@
+{% extends "base_maincontent.html" %}
+
+{% block maincontentbase %}
+    {% include "template_form_errormessages.html" %}
+
+    {% if success %}
+        {% include "template_successmessage.html" with message="修改成功" %}
+    {% endif %}
+
+    <form class="form-horizontal col-sm-10" action="" method="post">
+        {% csrf_token %}
+        {% include "formTemplate.html" %}
+        <button type="submit" class="btn btn-default ">Submit</button>
+    </form>
+
+{% endblock maincontentbase %}
