@@ -1,6 +1,7 @@
-{% extends "base_maincontent.html" %}
+{% extends "base_credit.html" %}
+{% load staticfiles %}
 
-{% block maincontentbase %}
+{% block creditcontent %}
     {% include "template_form_errormessages.html" %}
 
     {% if success %}
@@ -9,8 +10,58 @@
 
     <form class="form-horizontal col-sm-10" action="" method="post">
         {% csrf_token %}
-        {% include "formTemplate.html" %}
+
+        <div class="fieldWrapper">
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    <label>Credit Type:</label>
+                </div>
+                <div class="col-sm-8" id="credit_type_select">
+                    {% for field in form %}
+                        {% if field.label == 'credit_type' %}
+                            {{ field }}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+
+        {% for field in form %}
+            {% if field.label != 'credit_type' %}
+                <div class="fieldWrapper">
+                    <div class="form-group">
+                        <div class="col-sm-4 control-label">
+                            {{ field.label_tag }}
+                        </div>
+                        <div class="col-sm-8">
+                            {{ field }}
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+
         <button type="submit" class="btn btn-default ">Submit</button>
     </form>
 
-{% endblock maincontentbase %}
+    <script>
+        $('#credit_type_select').cxSelect({
+              selects: ['credit_type', 'credit_second_type', 'credit_third_type'],
+              jsonName: 'name',
+              jsonValue: 'value',
+              jsonSub: 'sub',
+              url : url = '{% static "json/creditTypeData.json" %}'
+        });
+
+        $( ".datepicker" ).datepicker({
+          changeMonth: true,
+          changeYear: true,
+          yearRange: "1900:2020"
+        });
+
+    </script>
+
+
+
+{% endblock creditcontent %}

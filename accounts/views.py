@@ -1,13 +1,15 @@
+import datetime
 from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+import time
 from project.models import Project, ProjectType, Project_Student
 from django.template.context import RequestContext
 from django.views import generic
 from accounts import forms
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Credit
 
 
 # Create your views here.
@@ -184,30 +186,35 @@ def user_credit_list_view(request):
     return HttpResponse(response % username)
 
 
-# @login_required
-# def my_project(request):
-#     return render(request, 'user_myproject')
-
 @login_required(login_url='/accounts/login/')
 def new_credit(request):
     if request.method == 'GET':
         form = forms.NewCreditForm()
-        return render(request, 'new_credit.html', {'form': form, })
+        return render(request, 'new_credit.html', {'form': form})
     else:
         form = forms.NewCreditForm(request.POST)
         if form.is_valid():
-            credit_type = request.POST.get("credit_type", 0)
             credit_name = request.POST.get("credit_name", "")
-            credit_value = request.POST.get("credit_value", 0)
+            get_project_date = request.POST.get("get_project_date")
+            credit_type = request.POST.get("credit_type")
+            credit_second_type = request.POST.get("credit_second_type")
+            credit_third_type = request.POST.get("credit_third_type")
+
+            date_list = time.strptime(str(get_project_date), '%m/%d/%Y')
+            year, month, day = date_list[0:3]
+            get_project_date = str(datetime.date(year, month, day))
 
             credit_now = Credit.objects.create(
                 student=request.user,
+                name=credit_name,
+                get_project_date=get_project_date,
                 credit_type=int(credit_type),
-                value=int(credit_value),
-                name=credit_name
+                credit_second_type=credit_second_type,
+                credit_third_type=credit_third_type
             )
             credit_now.save()
-            return render(request, 'new_credit.html', {'form': form, 'success': True})
+            return render(request, 'new_credit.html',
+                          {'form': form, 'success': True})
         else:
             return render(request, 'new_credit.html', {'form': form})
 

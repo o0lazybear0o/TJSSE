@@ -32,7 +32,7 @@ class UserProfile(models.Model):
         if (len(self.user.first_name) == 0) or (len(self.user.last_name) == 0) or (len(self.user.email) == 0):
             return False
         if (self.type == UserProfile.TYPE_STUDENT) and (not self.grade):
-            return  False
+            return False
         return True
 
     def create_student(*args, **kwargs):
@@ -44,8 +44,10 @@ class UserProfile(models.Model):
 
 class Credit(models.Model):
     student = models.ForeignKey(User)
-    date = models.DateTimeField(auto_now=True)
+    create_credit_date = models.DateField(auto_now=True)
+    get_project_date = models.DateField(null=True)
 
+    name = models.CharField('名称', max_length=300)
     CREDIT_TYPE_CHOICES = [
         (1, '竞赛获奖'),
         (2, '学术论文'),
@@ -57,14 +59,14 @@ class Credit(models.Model):
         (21, '权威报纸'), (22, '核心期刊'), (23, 'SCI/EI检索'),
         (0, '无')
     ]
-    CREDIT_TYPE_THIRD = [
+    CREDIT_THIRD_TYPE = [
         (11, '一等奖'), (12, '二等奖'), (13, '三等奖'),
         (21, '第一作者'), (22, '第二作者'), (23, '第三作者'),
         (0, "无")
     ]
     credit_type = models.IntegerField('认定类型', choices=CREDIT_TYPE_CHOICES, default='1')
-    credit_second_type = models.IntegerField('认定等级2', choices=CREDIT_SECOND_TYPE, default='11'),
-    credit_third_type = models.IntegerField('认定等级3', choices=CREDIT_TYPE_THIRD, default='13')
+    credit_second_type = models.IntegerField('认定等级2', choices=CREDIT_SECOND_TYPE, default='11')
+    credit_third_type = models.IntegerField('认定等级3', choices=CREDIT_THIRD_TYPE, default='11')
 
     CREDIT_STATUS_CHOICES = [
         (0, '待审核'),
@@ -72,18 +74,15 @@ class Credit(models.Model):
         (2, '已通过'),
     ]
     status = models.IntegerField('审核状态', choices=CREDIT_STATUS_CHOICES, default=0)
-
-    CREDIT_GEADE = [
+    CREDIT_GRADE = [
         (5, '优'),
         (4, '良'),
         (3, '中'),
         (2, '及格'),
         (0, '暂无')
     ]
-    grade = models.IntegerField('学分等级', choices=CREDIT_GEADE, default=0)
-
+    grade = models.IntegerField('学分等级', choices=CREDIT_GRADE, default=0)
     value = models.IntegerField('认定学分', default=0)
-    name = models.CharField('名称', max_length=300)
 
     def save(self, *args, **kwargs):
         if self.student.userprofile.type != UserProfile.TYPE_STUDENT:
@@ -95,4 +94,4 @@ class Credit(models.Model):
         return str(self.student.userprofile) + " name:" + self.name + " value: " + str(self.value)
 
     class Meta:
-        ordering = ['date']
+        ordering = ['create_credit_date']

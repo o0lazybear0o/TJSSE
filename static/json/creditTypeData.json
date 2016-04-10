@@ -48,15 +48,15 @@
   },
   {"name":"大学生创新项目", "value":"4","sub":[
     {"name":"校级", "value":"11","sub":[
-      {"name":"二等奖以上", "value":"31"}
+      {"name":"无", "value":"0"}
     ]
     },
     {"name":"省级", "value":"12","sub":[
-      {"name":"上海市优秀案例", "value":"41"}
+      {"name":"无", "value":"0"}
     ]
     },
     {"name":"国家级", "value":"13","sub":[
-      {"name":"国家典型案例", "value":"51"}
+      {"name":"无", "value":"0"}
     ]
     }
   ]
