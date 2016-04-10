@@ -110,20 +110,24 @@ def new_project(request):
             Project_Student.objects.create(
                 student=request.user,
                 project=project,
-                is_superuser=True
+                is_superuser=True,
             ).save()
             if partner1_id != '':
                 student = User.objects.get(username=partner1_id)
                 Project_Student.objects.create(
                     student=student,
                     project=project,
+                    is_superuser=False,
                 ).save()
+
             if partner2_id != '':
                 student = User.objects.get(username=partner2_id)
                 Project_Student.objects.create(
                     student=student,
                     project=project,
+                    is_superuser=False,
                 ).save()
+
             return render(request, 'new_project.html', {'form': form, 'success': True})
         else:
             return render(request, 'new_project.html', {'form': form})
@@ -163,10 +167,9 @@ def user_info_view(request):
 
 
 @login_required(login_url='/accounts/login/')
-def user_project_list_view(request):
-    response = "Hi. This is the project list page for user %s"
-    username = request.user.get_username()
-    return HttpResponse(response % username)
+def my_project(request):
+    username = request.user.get_full_name()
+    return render(request, "accounts_userprojectlist.html", {'username': username, })
 
 
 @login_required(login_url='/accounts/login/')

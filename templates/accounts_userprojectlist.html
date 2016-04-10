@@ -1,10 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
+{% extends "base_userproject.html" %}
 
-</body>
-</html>
+{% load staticfiles %}
+
+{% block userprojectbase %}
+    {% include "template_form_errormessages.html" %}
+
+    {% if wrong_student_id %}
+        {% include "template_errormessage.html" with error="学号输入错误" %}
+    {% endif %}
+
+    {% if success %}
+        {% include "template_successmessage.html" with message="项目申请成功" %}
+    {% endif %}
+
+    <h1>{{ username }}'s Projects</h1>
+    <hr>
+
+
+
+{% endblock userprojectbase %}

@@ -38,10 +38,10 @@ def new_student(request):
             id2 = int(end_id)
             for x in range(id1, id2+1):
                 if User.objects.filter(username=x).__len__() == 0:
-                    user = User.objects.create(username=x)
+                    user = User.objects.create(username=x,)
                     user.set_password(password)
                     user.save()
-                    userProfile = UserProfile.objects.create(user=user)
+                    userProfile = UserProfile.objects.create(user=user, type=UserProfile.TYPE_STUDENT)
                     userProfile.save()
             return render(request, 'adminweb_newstudent.html', {'form': form, 'success': True})
         else:
