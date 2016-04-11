@@ -1,7 +1,7 @@
-{% extends "base_credit.html" %}
-{% load staticfiles %}
+{% extends 'base_adminweb.html' %}
 
-{% block creditcontent %}
+{% load staticfiles %}
+{% block adminweb_base %}
     {% include "template_form_errormessages.html" %}
 
     {% if success %}
@@ -64,4 +64,4 @@
 
 
 
-{% endblock creditcontent %}
+{% endblock adminweb_base %}

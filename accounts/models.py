@@ -32,7 +32,7 @@ class UserProfile(models.Model):
         if (len(self.user.first_name) == 0) or (len(self.user.last_name) == 0) or (len(self.user.email) == 0):
             return False
         if (self.type == UserProfile.TYPE_STUDENT) and (not self.grade):
-            return False
+            return  False
         return True
 
     def create_student(*args, **kwargs):
