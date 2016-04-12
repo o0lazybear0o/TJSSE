@@ -1,15 +1,11 @@
-{% extends "base_credit.html" %}
-{% load staticfiles %}
+{% extends 'base_adminweb.html' %}
 
-{% block creditcontent %}
+{% load staticfiles %}
+{% block adminweb_base %}
     {% include "template_form_errormessages.html" %}
 
     {% if success %}
-<<<<<<< HEAD
-        {% include "template_successmessage.html" with message="修改成功" %}
-=======
         {% include "template_successmessage.html" with message=success%}
->>>>>>> refs/remotes/origin/master
     {% endif %}
 
     <form class="form-horizontal col-sm-10" action="" method="post">
@@ -68,4 +64,4 @@
 
 
 
-{% endblock creditcontent %}
+{% endblock adminweb_base %}

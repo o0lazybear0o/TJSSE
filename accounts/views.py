@@ -1,5 +1,6 @@
 import datetime
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
@@ -117,6 +118,7 @@ def new_project(request):
                 project=project,
                 is_superuser=True,
             ).save()
+<<<<<<< HEAD
             for x in partner_list:
                 if x != '':
                     student = User.objects.get(username=x)
@@ -125,6 +127,24 @@ def new_project(request):
                         project=project,
                         is_superuser=False,
                     ).save()
+=======
+            if partner1_id != '':
+                student = User.objects.get(username=partner1_id)
+                Project_Student.objects.create(
+                    student=student,
+                    project=project,
+                    is_superuser=False,
+                ).save()
+
+            if partner2_id != '':
+                student = User.objects.get(username=partner2_id)
+                Project_Student.objects.create(
+                    student=student,
+                    project=project,
+                    is_superuser=False,
+                ).save()
+
+>>>>>>> refs/remotes/origin/master
             return render(request, 'new_project.html', {'form': form, 'success': True})
         else:
             return render(request, 'new_project.html', {'form': form, 'not_valid': False})
@@ -134,14 +154,14 @@ def new_project(request):
 @login_required(login_url='/accounts/login/')
 def change_user_info_view(request):
     if request.method == 'GET':
-        if (request.user.userprofile.type == UserProfile.TYPE_STUDENT):
+        if request.user.userprofile.type == UserProfile.TYPE_STUDENT:
             userprofileform = forms.ChangeStudentInfoForm(instance=request.user.userprofile)
         else:
             userprofileform = forms.ChangeProfessorInfoForm(instance=request.user.userprofile)
         userform = forms.ChangeUserInfoForm(instance=request.user)
         return render(request, 'userinfo_change.html', {'userform': userform, 'userprofileform': userprofileform, })
     else:
-        if (request.user.userprofile.type == UserProfile.TYPE_STUDENT):
+        if request.user.userprofile.type == UserProfile.TYPE_STUDENT:
             userprofileform = forms.ChangeStudentInfoForm(request.POST, instance=request.user.userprofile)
         else:
             userprofileform = forms.ChangeProfessorInfoForm(request.POST, instance=request.user.userprofile)
@@ -165,12 +185,17 @@ def user_info_view(request):
 
 @login_required(login_url='/accounts/login/')
 def my_project(request):
+<<<<<<< HEAD
     username = request.user.userprofile.get_full_name()
     project_student_list = request.user.project_student_set.all()
     project_list = []
     for project in project_student_list:
         project_list.append(project.project)
     return render(request, "accounts_userprojectlist.html", {'username': username, 'project_list': project_list})
+=======
+    username = request.user.get_full_name()
+    return render(request, "accounts_userprojectlist.html", {'username': username, })
+>>>>>>> refs/remotes/origin/master
 
 
 def get_changeable(request, project):
@@ -209,6 +234,7 @@ def user_project_detail_view(request, project_id):
 
 
 @login_required(login_url='/accounts/login/')
+<<<<<<< HEAD
 def user_project_change_details(request, project_id):
     project = Project.objects.get(id=project_id)
     project_student_list = project.project_student_set.all()
@@ -442,3 +468,96 @@ def edit_credit(request, id):
 def user_credit_list_view(request):
     credit_list = request.user.credit_set.all()
     return render(request, 'credit.html', {'credit_list': credit_list})
+=======
+def new_credit(request):
+    if UserProfile.TYPE_STUDENT != request.user.userprofile.type:
+        return HttpResponseRedirect(reverse('home'))
+
+    if request.method == 'GET':
+        form = forms.NewCreditForm()
+        return render(request, 'new_credit.html', {'form': form})
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit_name = request.POST.get("credit_name", "")
+            get_project_date = format_date(str(request.POST.get("get_project_date")))
+            credit_type = request.POST.get("credit_type")
+            credit_second_type = request.POST.get("credit_second_type")
+            credit_third_type = request.POST.get("credit_third_type")
+
+            credit_now = Credit.objects.create(
+                student=request.user,
+                name=credit_name,
+                get_project_date=get_project_date,
+                credit_type=int(credit_type),
+                credit_second_type=credit_second_type,
+                credit_third_type=credit_third_type
+            )
+            credit_now.save()
+            return render(request, 'new_credit.html',
+                          {'form': form, 'success': "修改成功"})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def edit_credit(request, id):
+    if UserProfile.TYPE_STUDENT != request.user.userprofile.type:
+        return HttpResponseRedirect(reverse('home'))
+
+    if request.method == 'GET':
+        credit = Credit.objects.get(id=int(id))
+        form = forms.NewCreditForm({
+            'credit_type': credit.credit_type,
+            'credit_second_type': credit.credit_second_type,
+            'credit_third_type': credit.credit_third_type,
+            'get_project_date': credit.create_credit_date,
+            'credit_name': credit.name,
+            'credit_value': credit.value
+        })
+        return render(request, 'new_credit.html', {'form': form})
+    else:
+        form = forms.NewCreditForm(request.POST)
+        if form.is_valid():
+            credit = Credit.objects.get(id=int(id))
+            credit.credit_type = int(request.POST.get("credit_type", 0))
+            credit.credit_second_type = int(request.POST.get("credit_second_type", 11))
+            credit.credit_third_type = int(request.POST.get("credit_third_type", 11))
+            credit.name = request.POST.get("credit_name", "")
+            credit.get_project_date = format_date(str(request.POST.get("get_project_date")))
+            credit.save()
+            return render(request, 'new_credit.html', {'form': form, 'success': "修改成功"})
+        else:
+            return render(request, 'new_credit.html', {'form': form})
+
+
+@login_required(login_url='/accounts/login/')
+def user_credit_list_view(request):
+    credit_list = request.user.credit_set.all()
+    return render(request, 'credit.html', {'credit_list': credit_list})
+
+
+@login_required(login_url='/accounts/login/')
+def delete_credit(request, id):
+    if UserProfile.TYPE_STUDENT != request.user.userprofile.type:
+        return HttpResponseRedirect(reverse('home'))
+    try:
+        now_user = request.user
+        now_credit = Credit.objects.get(id=int(id))
+        if now_credit.student != now_user:
+            return HttpResponseRedirect(reverse('home'))
+
+        now_credit.delete()
+        return HttpResponseRedirect(reverse('user_credit_list'))
+    except:
+        return HttpResponseRedirect(reverse('home'))
+
+
+def format_date(date_str):
+    try:
+        date_list = time.strptime(str(date_str), '%Y-%m-%d')
+    except:
+        date_list = time.strptime(str(date_str), '%m/%d/%Y')
+    year, month, day = date_list[0:3]
+    return str(datetime.date(year, month, day))
+>>>>>>> refs/remotes/origin/master

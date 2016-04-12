@@ -1,0 +1,59 @@
+{% extends 'base_adminweb.html' %}
+
+{% load staticfiles %}
+{% block adminweb_base %}
+
+    <a id="0" type="button" class="btn btn-default"  href="./0">待审核</a>
+    <a id="1" type="button" class="btn btn-default"  href="./1">未通过</a>
+    <a id="2" type="button" class="btn btn-default"  href="./2">已通过</a>
+    <a id="3" type="button" class="btn btn-default"  href="./3">所有</a>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <th>学号</th>
+            <th>姓名</th>
+            <th>学分类别</th>
+            <th>奖项名称</th>
+            <th>获奖时间</th>
+            <th>申请时间</th>
+            <th>学分</th>
+            <th>成绩</th>
+            <th>状态</th>
+            <th>编辑</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for credit in credit_list %}
+            <tr>
+                <td><a href="{% url 'get_student_credit' id=credit.student.id status=3 %}">{{ credit.student.username }}</a></td>
+                <td>{{ credit.student.first_name }}{{ credit.student.last_name }}</td>
+                <td>{{ credit.get_credit_type_display}}, {{ credit.get_credit_second_type_display }}, {{ credit.get_credit_third_type_display }}</td>
+
+                <td>{{ credit.name  }}</td>
+                <td>{{ credit.get_project_date }}</td>
+                <td>{{ credit.create_credit_date }}</td>
+                <td>{{ credit.value }}</td>
+                <td>{{ credit.get_grade_display }}</td>
+                {% if credit.status == 0 %}
+                    <td class="warning">{{ credit.get_status_display }}</td>
+                 {% elif credit.status == 1 %}
+                    <td class="active">{{ credit.get_status_display }}</td>
+                 {% else %}
+                    <td class="success">{{ credit.get_status_display }}</td>
+                {% endif %}
+                <td>
+                    <a href="{% url 'super_delete_credit' id=credit.id %}">Delete</a>/<a href="{% url 'super_edit_credit' id=credit.id %}">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+     <script>
+        list = document.location.href.split("/");
+        $('#'+list[list.length - 1]).addClass("active");
+    </script>
+
+{% endblock adminweb_base %}
