@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block contentbase %}
+    <div class="panel-card">
+        {% block userprojectbase %}
+        {% endblock userprojectbase %}
+    </div>
+
+{% endblock contentbase %}
+
+{% block sidebarbase %}
+
+    <div class="panel-card">
+        <ul class="nav nav-pills nav-stacked">
+            <li role="presentation" id="details"><a href="../details">Details</a></li>
+            {% if changeable %}
+            <li role="presentation" id="change_details"><a href="../change_details">Change Details</a></li>
+            {% endif %}
+            <li role="presentation" id="fund"><a href="../fund">Fund</a></li>
+        </ul>
+    </div>
+
+    <script>
+        list = document.location.href.split("/");
+        $('#'+list[list.length - 2]).addClass("active");
+    </script>
+
+{% endblock sidebarbase %}

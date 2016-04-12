@@ -1,0 +1,22 @@
+{% extends "base_projectdetails.html" %}
+
+{% load staticfiles %}
+
+{% block userprojectbase %}
+
+    <h1>{{ project.name }}</h1>
+    <a href="../../">Click here to back</a>
+    <hr>
+
+    <p><strong>Project Type:</strong> {{ project.project_type }}</p>
+    <p><strong>Project Status:</strong> {{ project.get_status }}</p>
+    <p><strong>End Time:</strong> {{ project.endtime }}</p>
+    <p><strong>Professor:</strong> {{ project.professor }}</p>
+
+    {% for x in student_list %}
+        <p><strong>Member:</strong> {{ x.student.userprofile.get_full_name }}</p>
+    {% endfor %}
+
+    <p><strong>Description:</strong> {{ project.description|escape|linebreaks }}</p>
+
+{% endblock userprojectbase %}

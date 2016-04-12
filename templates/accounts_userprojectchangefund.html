@@ -1,0 +1,18 @@
+{% extends "base_userfunddetails.html" %}
+
+{% load staticfiles %}
+
+{% block userprojectbase %}
+
+    <h1>{{ name }}'s Fund</h1>
+    <a href="../">Click here to back</a>
+    <hr>
+
+    <form class="form-horizontal" action="" method="post">
+        {% csrf_token %}
+        {% include "formTemplate.html" %}
+        <a href="delete" role="button" class="btn btn-default">Delete</a>
+        <button type="submit" class="btn btn-default">Submit</button>
+    </form>
+
+{% endblock userprojectbase %}

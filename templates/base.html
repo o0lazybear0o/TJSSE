@@ -7,6 +7,9 @@
     <title>TJSEE</title>
     <script src="{% static "js/jquery.min.js" %}"></script>
     <script type="text/javascript" src="{% static "js/bootstrap.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.cxselect.min.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.cxselect.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery-ui.js"%}"></script>
     <link rel="stylesheet" href="{% static "css/bootstrap.css" %}" type="text/css">
     <link rel="stylesheet" href="{% static "css/bootstrap-theme.css" %}" type="text/css">
     <link rel="stylesheet" href="{% static "css/customstyle.css" %}" type="text/css">
@@ -64,11 +67,11 @@
                         <li><a href="/accounts/info/change_info">Change Info</a></li>
                         <li><a href="/accounts/info/change_password">Change Password</a></li>
                         <li class="divider"></li>
-                        <li><a href="#">My Project</a></li>
+                        <li><a href="/accounts/my_project">My Project</a></li>
                         <li><a href="/accounts/new_project">New Project</a></li>
                         <li class="divider" style="height: 1.2px"></li>
-                        <li><a href="#">My Credit</a></li>
-                        <li><a href="#">New Credit</a></li>
+                        <li><a href="{% url 'user_credit_list' %}">My Credit</a></li>
+                        <li><a href="{% url 'new_credit' %}">New Credit</a></li>
                     </ul>
                 </li>
                 <li><a href="/logout/">Log Out</a></li>

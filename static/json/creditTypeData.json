@@ -1,0 +1,64 @@
+[
+  {"name": "竞赛获奖", "value":"1", "sub":[
+    {"name":"校级", "value":"11","sub":[
+      {"name":"一等奖", "value":"11"},
+      {"name":"二等奖", "value":"12"}
+    ]
+    },
+    {"name":"省级", "value":"12","sub":[
+      {"name":"一等奖", "value":"11"},
+      {"name":"二等奖", "value":"12"},
+      {"name":"三等奖", "value":"13"}
+    ]
+    },
+    {"name":"国家级", "value":"13","sub":[
+      {"name":"一等奖", "value":"11"},
+      {"name":"二等奖", "value":"12"},
+      {"name":"三等奖", "value":"13"}
+    ]
+    },
+    {"name":"国际级", "value":"14"}
+  ]
+  },
+  {"name":"学术论文", "value":"2","sub":[
+    {"name":"权威报纸", "value":"11","sub":[
+        {"name":"第一作者", "value":"21"},
+        {"name":"第二作者", "value":"22"},
+        {"name":"第三作者", "value":"23"}
+      ]},
+    {"name":"核心期刊", "value":"11","sub":[
+        {"name":"第一作者", "value":"21"},
+        {"name":"第二作者", "value":"22"},
+        {"name":"第三作者", "value":"23"}
+      ]},
+    {"name":"SCI/EI检索", "value":"11","sub":[
+        {"name":"第一作者", "value":"21"},
+        {"name":"第二作者", "value":"22"},
+        {"name":"第三作者", "value":"23"}
+      ]}
+  ]
+  },
+  {"name":"国家发明专利", "value": "3","sub":[
+    {"name":"国家级","value":"13","sub":[
+        {"name":"第一作者", "value":"21"},
+        {"name":"第二作者", "value":"22"},
+        {"name":"第三作者", "value":"23"}
+      ]}
+  ]
+  },
+  {"name":"大学生创新项目", "value":"4","sub":[
+    {"name":"校级", "value":"11","sub":[
+      {"name":"无", "value":"0"}
+    ]
+    },
+    {"name":"省级", "value":"12","sub":[
+      {"name":"无", "value":"0"}
+    ]
+    },
+    {"name":"国家级", "value":"13","sub":[
+      {"name":"无", "value":"0"}
+    ]
+    }
+  ]
+  }
+]

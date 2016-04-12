@@ -1,8 +1,8 @@
 from django import forms
 from django.forms import ModelForm
-from accounts.models import UserProfile
+from accounts.models import UserProfile, Credit
 from django.contrib.auth.models import User
-from project.models import Project, ProjectType
+from project.models import Project, ProjectType, Fund
 
 
 class LoginForm(forms.Form):
@@ -77,7 +77,7 @@ class ChangePasswordForm(forms.Form):
 
 class NewProjectForm(forms.Form):
     project_type = forms.ModelChoiceField(
-        queryset=None,
+        queryset=ProjectType.objects.filter(isopening=True),
         required=True,
         label='Project Type',
         error_messages={'required': '请选择项目类型'}
@@ -88,15 +88,24 @@ class NewProjectForm(forms.Form):
         error_messages={'required': '请输入项目名称'},
     )
     professor = forms.ModelChoiceField(
-        queryset=None,
+        queryset=UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR),
         required=True,
         label='Professor',
-        error_messages={'required': '请选择导师'})
+        error_messages={'required': '请选择导师'}
+    )
     partner1 = forms.CharField(
         required=False,
         label="Partner ID (Optional)",
     )
     partner2 = forms.CharField(
+        required=False,
+        label="Partner ID (Optional)",
+    )
+    partner3 = forms.CharField(
+        required=False,
+        label="Partner ID (Optional)",
+    )
+    partner4 = forms.CharField(
         required=False,
         label="Partner ID (Optional)",
     )
@@ -107,7 +116,47 @@ class NewProjectForm(forms.Form):
         ),
     )
 
+
+class FundForm(ModelForm):
+    class Meta:
+        model = Fund
+        fields = ['fund_type', 'value', 'note']
+
+
+class NewCreditForm(forms.Form):
+    credit_type = forms.ChoiceField(
+        choices=Credit.CREDIT_TYPE_CHOICES,
+        label='credit_type',
+        required=True,
+        widget=forms.Select(attrs={'class': 'credit_type'}),
+        error_messages={'required': '请输入学分类型1'},
+    )
+    credit_second_type = forms.ChoiceField(
+        choices=Credit.CREDIT_SECOND_TYPE,
+        label='credit_type',
+        required=True,
+        widget=forms.Select(attrs={'class': 'credit_second_type'}),
+        error_messages={'required': '请输入学分类型2'},
+    )
+    credit_third_type = forms.ChoiceField(
+        choices=Credit.CREDIT_THIRD_TYPE,
+        label='credit_type',
+        required=True,
+        widget=forms.Select(attrs={'class': 'credit_third_type'}),
+        error_messages={'required': '请输入学分类型3'},
+    )
+
+    get_project_date = forms.DateTimeField(
+        required=True,
+        label="Get Project Date",
+        widget=forms.TextInput(attrs={'class': 'datepicker'}),
+        error_messages={'required': '请输入获得奖项时间'},
+    )
+    credit_name = forms.CharField(
+        required=True,
+        label="Credit Name",
+        error_messages={'required': '请输入学分名称'},
+    )
+
     def __init__(self, *args, **kwargs):
-        super(NewProjectForm, self).__init__(*args, **kwargs)
-        self.fields['professor'].queryset = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
-        self.fields['project_type'].queryset = ProjectType.objects.filter(isopening=True)
+        super(NewCreditForm, self).__init__(*args, **kwargs)

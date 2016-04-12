@@ -1,0 +1,37 @@
+{% extends "base_credit.html" %}
+
+{% block creditcontent %}
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+            <th>Credit Type1</th>
+            <th>Credit Type2</th>
+            <th>Credit Type3</th>
+            <th>Name</th>
+            <th>Get Project Time</th>
+            <th>Application Time</th>
+            <th>Value</th>
+            <th>Grade</th>
+            <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for credit in credit_list %}
+            <tr>
+                <td>{{ credit.get_credit_type_display}}</td>
+                <td>{{ credit.get_credit_second_type_display }}</td>
+                <td>{{ credit.get_credit_third_type_display }}</td>
+                <td>{{ credit.name  }}</td>
+                <td>{{ credit.get_project_date }}</td>
+                <td>{{ credit.create_credit_date }}</td>
+                <td>{{ credit.value }}</td>
+                <td>{{ credit.get_grade_display }}</td>
+                <td>{{ credit.get_status_display }}</td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+{% endblock creditcontent %}
