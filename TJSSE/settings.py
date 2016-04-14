@@ -134,20 +134,13 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SITE_ROOT=os.path.join(os.path.abspath(os.path.dirname(__file__)),'..')
+SITE_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
 
-STATIC_ROOT = os.path.join(SITE_ROOT,'static')
+STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 
 STATICFILES_DIRS = (
-<<<<<<< HEAD
     ("css", os.path.join(STATIC_ROOT, 'css')),
     ("js", os.path.join(STATIC_ROOT, 'js')),
     ("images", os.path.join(STATIC_ROOT, 'images')),
     ("json", os.path.join(STATIC_ROOT, 'json')),
-=======
-    ("css", os.path.join(STATIC_ROOT,'css')),
-    ("js", os.path.join(STATIC_ROOT,'js')),
-    ("images", os.path.join(STATIC_ROOT,'images')),
-    ("json", os.path.join(STATIC_ROOT,'json')),
->>>>>>> refs/remotes/origin/master
 )

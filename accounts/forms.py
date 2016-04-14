@@ -162,49 +162,4 @@ class NewCreditForm(forms.Form):
     )
 
     def __init__(self, *args, **kwargs):
-<<<<<<< HEAD
         super(NewCreditForm, self).__init__(*args, **kwargs)
-=======
-        super(NewProjectForm, self).__init__(*args, **kwargs)
-        self.fields['professor'].queryset = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
-        self.fields['project_type'].queryset = ProjectType.objects.filter(isopening=True)
-
-
-class NewCreditForm(forms.Form):
-    credit_type = forms.ChoiceField(
-        choices=Credit.CREDIT_TYPE_CHOICES,
-        label='credit_type',
-        required=True,
-        widget=forms.Select(attrs={'class': 'credit_type'}),
-        error_messages={'required': '请输入学分类型1'},
-    )
-    credit_second_type = forms.ChoiceField(
-        choices=Credit.CREDIT_SECOND_TYPE,
-        label='credit_type',
-        required=True,
-        widget=forms.Select(attrs={'class': 'credit_second_type'}),
-        error_messages={'required': '请输入学分类型2'},
-    )
-    credit_third_type = forms.ChoiceField(
-        choices=Credit.CREDIT_THIRD_TYPE,
-        label='credit_type',
-        required=True,
-        widget=forms.Select(attrs={'class': 'credit_third_type'}),
-        error_messages={'required': '请输入学分类型3'},
-    )
-
-    get_project_date = forms.DateTimeField(
-        required=True,
-        label="Get Project Date",
-        widget=forms.TextInput(attrs={'class': 'datepicker'}),
-        error_messages={'required': '请输入获得奖项时间'},
-    )
-    credit_name = forms.CharField(
-        required=True,
-        label="Credit Name",
-        error_messages={'required': '请输入学分名称'},
-    )
-
-    def __init__(self, *args, **kwargs):
-        super(NewCreditForm, self).__init__(*args, **kwargs)
->>>>>>> refs/remotes/origin/master
