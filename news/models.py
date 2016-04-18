@@ -18,6 +18,10 @@ class News(models.Model):
     ]
     status = models.IntegerField('审核状态',choices=STATUS_CHOICES)
 
+    def __str__(self):
+        return self.title+', '+self.publisher.get_full_name()
+    __repr__=__str__
+
 
 class Attachment(models.Model):
     news = models.ForeignKey(News)
