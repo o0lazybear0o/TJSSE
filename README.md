@@ -31,5 +31,5 @@ Final Project. A system for TJSSE to manage innovation projects.
 	+ 分页
 	+ 表格样式 
 + contact
-	+分页
-	+表格样式
+	+ 分页
+	+ 表格样式 
