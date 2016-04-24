@@ -26,5 +26,5 @@ urlpatterns = [
     url(r'^login/$', accounts.views.login, name='login'),
     url(r'^accounts/', include('accounts.urls')),
     url(r'^news/', include('news.urls')),
-    #url(r'^project/', include('project.urls')),
+    url(r'^project/', include('project.urls')),
 ]

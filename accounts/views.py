@@ -1,6 +1,7 @@
 import datetime
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.db.models.sql import OR
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
@@ -480,3 +481,47 @@ def format_date(date_str):
         date_list = time.strptime(str(date_str), '%m/%d/%Y')
     year, month, day = date_list[0:3]
     return str(datetime.date(year, month, day))
+
+
+@login_required(login_url='/accounts/login/')
+def contact_student(request):
+    if request.method == 'GET':
+        student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
+        grade_list = student_list.values("grade").distinct()
+        return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
+    else:
+        content = request.POST.get("search", "")
+        grade = request.POST.get("grade", "ALL")
+        student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
+        grade_list = student_list.values("grade").distinct()
+        student_list = __search(grade, content, student_list)
+        return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
+
+
+@login_required(login_url='/accounts/login/')
+def contact_professor(request):
+    if request.method == 'GET':
+        professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+        return render(request, "contact_professor.html", {'professor_list': professor_list})
+    else:
+        content = request.POST.get("search", "")
+        grade = "ALL"
+        professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+        professor_list = __search(grade, content, professor_list)
+        return render(request, "contact_professor.html", {'professor_list': professor_list})
+
+
+def __search(grade, content, user_list):
+    if grade != "ALL":
+        if grade == "None":
+            user_list = user_list.filter(grade=None)
+        else:
+            user_list = user_list.filter(grade=int(grade))
+    if content != "":
+        temp_list = user_list
+        user_list = []
+        for temp in temp_list:
+            if temp.user.username == content or temp.get_full_name() == content or temp.user.first_name + temp.user.last_name == content:
+                user_list.append(temp)
+    print(user_list)
+    return user_list

@@ -19,6 +19,10 @@
             <a href="/project/{{ project.pk }}">详细信息</a>
         </div>
     {% endfor %}
+
+    <script>
+        $('#project').addClass("active");
+    </script>
 {% endblock contentbase %}
 
 {% block sidebarbase %}

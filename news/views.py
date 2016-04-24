@@ -13,8 +13,8 @@ def news_list_view(request):
 def news_search_list_view(request):
     search_infor=getSearchInfor(request)
 
-    if search_infor!=None and search_infor[0]!='':
-        news_list=News.objects.filter(Q(title__contains=search_infor[0])&\
+    if search_infor!=None and search_infor['search_val']!='':
+        news_list=News.objects.filter(Q(title__contains=search_infor['search_val'])&\
                                       Q(status=News.STATUS_PASS))
         search_form=SearchForm()
 
@@ -37,6 +37,6 @@ def getSearchInfor(request):
     search_form=SearchForm(request.POST)
     if search_form.is_valid():
         search_val=request.POST['search_val']
-        return [search_val]
+        return {'search_val':search_val}
     else:
         return None

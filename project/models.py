@@ -119,5 +119,6 @@ class Document(models.Model):
 class Fund(models.Model):
     project = models.ForeignKey(Project)
     fund_type = models.CharField(max_length=60)
+    value=models.IntegerField(default=0)
     date = models.DateField(default=datetime.date.today)
     note = models.CharField(max_length=300, blank=True)

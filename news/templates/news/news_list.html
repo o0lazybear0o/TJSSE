@@ -8,6 +8,10 @@
             <a href="/news/{{ new.pk }}">详细信息</a>
         </div>
     {% endfor %}
+
+    <script>
+        $('#news').addClass("active");
+    </script>
 {% endblock contentbase %}
 
 {% block sidebarbase %}
