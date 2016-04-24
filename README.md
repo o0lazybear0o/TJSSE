@@ -33,3 +33,7 @@ Final Project. A system for TJSSE to manage innovation projects.
 + contact
 	+ 分页
 	+ 表格样式 
++ professor
+	+ 查看学生项目
++ admin
+	+ 修改项目状态 
