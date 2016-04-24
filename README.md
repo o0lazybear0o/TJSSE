@@ -27,9 +27,9 @@ Final Project. A system for TJSSE to manage innovation projects.
 ## 还需解决的问题
 
 + credit 
-	+上传文件
-	+分页
-	+表格样式
+	+ 上传文件
+	+ 分页
+	+ 表格样式 
 + contact
 	+分页
 	+表格样式
