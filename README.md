@@ -35,5 +35,6 @@ Final Project. A system for TJSSE to manage innovation projects.
 	+ 表格样式 
 + professor
 	+ 查看学生项目
-+ admin
-	+ 修改项目状态 
++ news
+	+ 分页
+	+ 附件在新闻详细界面上的打印，以及提供下载
