@@ -58,14 +58,15 @@ class Project(models.Model):
     endtime = models.DateField(null=True)
     note = models.CharField(max_length=300, blank=True)
 
-    def get_status(self):
-        return self.STATUS_CHOICES[self.status][1]
-
     def save(self, *args, **kwargs):
         if self.professor.userprofile.type != UserProfile.TYPE_PROFESSOR:
             return # Yoko shall never have her own blog!
         else:
             super(Project, self).save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name+', '+str(self.professor.get_username())
+    __repr__=__str__
 
 
 class Project_Student(models.Model):
@@ -80,7 +81,8 @@ class Project_Student(models.Model):
             super(Project_Student, self).save(*args, **kwargs)
 
     def __str__(self):
-        return self.project.name + " " + self.student.userprofile.get_full_name()
+        return self.student.get_username()+', '+self.project.name
+    __repr__=__str__
 
 
 class Document(models.Model):
@@ -117,6 +119,6 @@ class Document(models.Model):
 class Fund(models.Model):
     project = models.ForeignKey(Project)
     fund_type = models.CharField(max_length=60)
+    value=models.IntegerField(default=0)
     date = models.DateField(default=datetime.date.today)
     note = models.CharField(max_length=300, blank=True)
-    value = models.IntegerField(default=0)

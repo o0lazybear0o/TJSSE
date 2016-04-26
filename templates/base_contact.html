@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load staticfiles %}
+
+{% block contentbase %}
+    <div class="panel-card">
+        {% block contactcontent %}
+        {% endblock contactcontent %}
+    </div>
+{% endblock contentbase %}
+
+{% block sidebarbase %}
+
+    <div class="panel-card">
+        <ul class="nav nav-pills nav-stacked">
+
+            <li role="presentation" id="student"><a href="{% url 'contact_student' %}">STUDENT</a></li>
+
+            <li role="presentation" id="professor"><a href="{% url 'contact_professor' %}">PROFESSOR</a></li>
+        </ul>
+    </div>
+
+    <div class="panel-card">
+        {% block searchcontent %}
+        {% endblock searchcontent %}
+    </div>
+
+    <script>
+        list = document.location.href.split("/");
+        $('#'+list[list.length - 1]).addClass("active");
+    </script>
+
+{% endblock sidebarbase %}

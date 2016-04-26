@@ -3,8 +3,7 @@
 {% load staticfiles %}
 
 {% block userprojectbase %}
-<<<<<<< HEAD
-=======
+
     {% include "template_form_errormessages.html" %}
 
     {% if wrong_student_id %}
@@ -14,12 +13,10 @@
     {% if success %}
         {% include "template_successmessage.html" with message="项目申请成功" %}
     {% endif %}
->>>>>>> refs/remotes/origin/master
 
     <h1>{{ username }}'s Projects</h1>
     <hr>
 
-<<<<<<< HEAD
     <table class="table table-striped">
         <thead>
             <tr>
@@ -29,8 +26,8 @@
                 <th>Status</th>
                 <th>Endtime</th>
             </tr>
-        </thead>
         <tbody>
+        </thead>
         {% for project in project_list %}
             <tr>
                 <td><a href="{{ project.id }}/details">{{ project.name }}</a></td>
@@ -42,8 +39,5 @@
         {% endfor %}
         </tbody>
     </table>
-=======
-
->>>>>>> refs/remotes/origin/master
 
 {% endblock userprojectbase %}

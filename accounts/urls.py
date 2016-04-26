@@ -15,8 +15,6 @@ urlpatterns = [
     url(r'^my_project/(?P<project_id>[0-9]+)/fund/(?P<fund_id>[0-9]+)/delete/$', views.user_project_delete_fund, name='user_project_delete_fund'),
 
 
-
-
     url(r'^my_credit/$', views.user_credit_list_view, name='user_credit_list'),
     url(r"^new_credit/$", views.new_credit, name='new_credit'),
     url(r'^edit_credit/(?P<id>[0-9]+)$', views.edit_credit, name='edit_credit'),
@@ -26,5 +24,8 @@ urlpatterns = [
     url(r'^info/change_info/$', views.change_user_info_view, name='change_user_info'),
     url(r'^info/change_password/$', views.change_password_view, name='change_password'),
 
-    url(r'^adminweb/', include('adminweb.urls'))
+    url(r'^adminweb/', include('adminweb.urls')),
+
+    url(r'^contact/student$', views.contact_student, name='contact_student'),
+    url(r'^contact/professor$', views.contact_professor, name='contact_professor'),
 ]

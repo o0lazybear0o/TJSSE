@@ -163,3 +163,18 @@ class NewCreditForm(forms.Form):
 
     def __init__(self, *args, **kwargs):
         super(NewCreditForm, self).__init__(*args, **kwargs)
+
+
+# class ContactSearchForm(forms.Form):
+#     content = forms.CharField(
+#         required=False,
+#         label="CONTENT",
+#     )
+#     grade = forms.ChoiceField(
+#         # choices=Credit.CREDIT_TYPE_CHOICES,
+#         label='GRADE',
+#         required=True,
+#     )
+#
+#     def clean(self):
+#         cleaned_data = super(ContactSearchForm, self).clean()
