@@ -26,6 +26,8 @@ urlpatterns = [
 
     url(r'^adminweb/', include('adminweb.urls')),
 
-    url(r'^contact/student$', views.contact_student, name='contact_student'),
-    url(r'^contact/professor$', views.contact_professor, name='contact_professor'),
+    url(r'^contact/student/$', views.contact_student_list_view, name='contact_student'),
+    url(r'^contact/student/search/$', views.contact_student_search_list_view, name='contact_student_search'),
+    url(r'^contact/professor/$', views.contact_professor_list_view, name='contact_professor'),
+    url(r'^contact/professor/search/$', views.contact_professor_search_list_view, name='contact_professor_search'),
 ]

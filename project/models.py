@@ -58,6 +58,9 @@ class Project(models.Model):
     endtime = models.DateField(null=True)
     note = models.CharField(max_length=300, blank=True)
 
+    def get_status(self):
+        return self.STATUS_CHOICES[self.status].__getitem__(1)
+
     def save(self, *args, **kwargs):
         if self.professor.userprofile.type != UserProfile.TYPE_PROFESSOR:
             return # Yoko shall never have her own blog!

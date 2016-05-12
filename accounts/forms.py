@@ -125,6 +125,10 @@ class FundForm(ModelForm):
         model = Fund
         fields = ['fund_type', 'value', 'note']
 
+# class NewCreditFrom(ModelForm):
+#     class Meta:
+#         model = Credit
+#         fields = ['credit_type', 'credit_second_type', 'credit_third_type', 'get_project_date', 'credit_name', 'image']
 
 class NewCreditForm(forms.Form):
     credit_type = forms.ChoiceField(
@@ -159,6 +163,11 @@ class NewCreditForm(forms.Form):
         required=True,
         label="Credit Name",
         error_messages={'required': '请输入学分名称'},
+    )
+    image = forms.ImageField(
+        required=False,
+        label="Image",
+        # error_messages={'required': '请上传图片'}
     )
 
     def __init__(self, *args, **kwargs):

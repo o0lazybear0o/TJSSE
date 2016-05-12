@@ -1,25 +1,86 @@
+<!--<nav>-->
+  <!--<ul class="pagination">-->
+      <!--{% if page.has_previous %}-->
+        <!--<li>-->
+            <!--<a href="?page={{ page.previous_page_number }}" aria-label="Previous">-->
+                <!--<span aria-hidden="true">&laquo;</span>-->
+            <!--</a>-->
+        <!--</li>-->
+      <!--{% endif %}-->
+      <!--{% for page_number in page.paginator.page_range_ext %}-->
+        <!--{% ifequal page_number  page.number %}-->
+            <!--<li class="active"><a href="#">{{ page_number }}</a></li>-->
+        <!--{% else %}-->
+            <!--<li><a href="?page={{ page_number }}">{{ page_number }}</a></li>-->
+        <!--{% endifequal %}-->
+      <!--{% endfor %}-->
+      <!--{% if page.has_next %}-->
+        <!--<li>-->
+            <!--<a href="?page={{ page.next_page_number }}" aria-label="Next">-->
+                <!--<span aria-hidden="true">&raquo;</span>-->
+            <!--</a>-->
+        <!--</li>-->
+      <!--{% endif %}-->
+  <!--</ul>-->
+<!--</nav>-->
+
 <nav>
+
+  <script>
+    var list = document.location.href.split("/");
+    extra_url = list[list.length-1];
+    if(extra_url=="")
+        extra_url="?page=1"
+  </script>
+
   <ul class="pagination">
       {% if page.has_previous %}
         <li>
-            <a href="?page={{ page.previous_page_number }}" aria-label="Previous">
+            <a id="pre" href="" aria-label="Previous">
                 <span aria-hidden="true">&laquo;</span>
             </a>
+            <script>
+              var a = document.getElementById("pre");
+              if(extra_url.indexOf("page=")!=-1){
+                  a.href = extra_url.replace(/page=[1-9]\d*/, "page={{ page.previous_page_number }}");
+              }else{
+                  a.href += "&page={{ page.previous_page_number }}";
+              }
+            </script>
         </li>
       {% endif %}
       {% for page_number in page.paginator.page_range_ext %}
         {% ifequal page_number  page.number %}
             <li class="active"><a href="#">{{ page_number }}</a></li>
         {% else %}
-            <li><a href="?page={{ page_number }}">{{ page_number }}</a></li>
+            <li><a id="a{{page_number}}" href="">{{ page_number }}</a></li>
+            <script>
+              var a = document.getElementById("a{{ page_number }}");
+              if(extra_url.indexOf("page=")!=-1){
+                  a.href = extra_url.replace(/page=[1-9]\d*/, "page={{ page_number }}");
+              }else{
+                  a.href += "&page={{ page_number }}";
+              }
+
+            </script>
         {% endifequal %}
       {% endfor %}
       {% if page.has_next %}
         <li>
-            <a href="?page={{ page.next_page_number }}" aria-label="Next">
+            <a id="next" href="" aria-label="Next">
                 <span aria-hidden="true">&raquo;</span>
             </a>
+            <script>
+              var a = document.getElementById("next");
+              if(extra_url.indexOf("page=")!=-1){
+                  a.href = extra_url.replace(/page=[1-9]\d*/, "page={{ page.next_page_number }}");
+              }else{
+                  a.href += "&page={{ page.next_page_number }}";
+              }
+            </script>
         </li>
       {% endif %}
   </ul>
+
 </nav>
+

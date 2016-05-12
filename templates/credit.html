@@ -3,7 +3,7 @@
 {% block creditcontent %}
 
 
-    <table class="table table-bordered">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
             <th>Credit Type</th>
@@ -20,7 +20,13 @@
       </thead>
       <tbody>
         {% for credit in credit_list %}
-            <tr>
+            {% if credit.status == 0 %}
+                    <tr class="warning">
+            {% elif credit.status == 1 %}
+                    <tr class="active">
+            {% else %}
+                    <tr class="success">
+            {% endif %}
 
                 <td>{{ credit.get_credit_type_display}}, {{ credit.get_credit_second_type_display }}, {{ credit.get_credit_third_type_display }}</td>
 
@@ -29,14 +35,7 @@
                 <td>{{ credit.create_credit_date }}</td>
                 <td>{{ credit.value }}</td>
                 <td>{{ credit.get_grade_display }}</td>
-
-                {% if credit.status == 0 %}
-                    <td class="warning">{{ credit.get_status_display }}</td>
-                 {% elif credit.status == 1 %}
-                    <td class="active">{{ credit.get_status_display }}</td>
-                 {% else %}
-                    <td class="success">{{ credit.get_status_display }}</td>
-                {% endif %}
+                <td>{{ credit.get_status_display }}</td>
                 <td>
                     {% if credit.status != 2 %}
                         <a href="{% url 'delete_credit' id=credit.id %}">Delete</a>

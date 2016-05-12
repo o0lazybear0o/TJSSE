@@ -22,10 +22,11 @@
 
       </tbody>
     </table>
+{% include "template_paginator.html" with page=professor_list %}
 {% endblock contactcontent %}
 
 {% block searchcontent %}
-    <form class="form-horizontal" action="" method="post">
+    <form class="form-horizontal" action="search/" method="GET">
     {% csrf_token %}
         <div class="form-group">
             <label for="search" class="col-sm-3 control-label">CONENT</label>

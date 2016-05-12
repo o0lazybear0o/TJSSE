@@ -2,13 +2,13 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render, render_to_response
 from TJSSE.utils import ExtendPaginator
-from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
+from django.core.paginator import PageNotAnInteger, EmptyPage
 from .models import Project,Project_Student
 from .forms import SearchForm
 from django.db.models import Q
 # Create your views here.
 
-PAGE_LIMIT = 10
+PAGE_LIMIT = 5
 
 @login_required(login_url='/accounts/login/')
 def project_list_view(request):
@@ -27,13 +27,6 @@ def project_list_view(request):
     return render(request, 'project/project_list.html', {'project_list':proj_list,\
                                                          'form':search_form,\
                                                          'search_choice':Project.STATUS_CHOICES})
-# @login_required(login_url='/accounts/login/')
-# def project_search_list_view(request):
-#     search_val=request.GET['search_val']
-#     proj_type=int(request.GET['project_type'])
-#     status_type=int(request.GET['status_type'])
-#     search_date=request.GET['search_date']
-#
 
 @login_required(login_url='/accounts/login/')
 def project_search_list_view(request):
@@ -89,10 +82,10 @@ def project_detail_view(request, project_id):
 def getSearchInfor(request):
     search_form=SearchForm(request.POST)
     if search_form.is_valid():
-        search_val=request.POST['search_val']
-        proj_type=int(request.POST['project_type'])
-        status_type=int(request.POST['status_type'])
-        search_date=request.POST.get('search_date','')
+        search_val=request.GET['search_val']
+        proj_type=int(request.GET['project_type'])
+        status_type=int(request.GET['status_type'])
+        search_date=request.GET.get('search_date','')
         return {'search_val':search_val,'proj_type':proj_type,'status_type':status_type,'search_date':search_date}
     else:
         return None

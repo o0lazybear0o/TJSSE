@@ -11,6 +11,8 @@ from django.template.context import RequestContext
 from django.views import generic
 from accounts import forms
 from accounts.models import UserProfile, Credit
+from TJSSE.utils import ExtendPaginator
+from django.core.paginator import PageNotAnInteger, EmptyPage
 import time
 
 
@@ -105,7 +107,7 @@ def new_project(request):
             professor = UserProfile.objects.get(id=professor_id).user
             for x in partner_list:
                 if x != '' and User.objects.filter(username=x).__len__() == 0:
-                    return render(request, 'new_project.html')
+                    return render(request, 'new_project.html', {'form': form, 'wrong_student_id': True})
             project = Project.objects.create(
                 name=project_name,
                 project_type=project_type,
@@ -398,13 +400,14 @@ def new_credit(request):
         form = forms.NewCreditForm()
         return render(request, 'new_credit.html', {'form': form})
     else:
-        form = forms.NewCreditForm(request.POST)
+        form = forms.NewCreditForm(request.POST, request.FILES)
         if form.is_valid():
             credit_name = request.POST.get("credit_name", "")
             get_project_date = format_date(str(request.POST.get("get_project_date")))
             credit_type = request.POST.get("credit_type")
             credit_second_type = request.POST.get("credit_second_type")
             credit_third_type = request.POST.get("credit_third_type")
+            # credit_image = request.FILES['img']
 
             credit_now = Credit.objects.create(
                 student=request.user,
@@ -412,11 +415,13 @@ def new_credit(request):
                 get_project_date=get_project_date,
                 credit_type=int(credit_type),
                 credit_second_type=credit_second_type,
-                credit_third_type=credit_third_type
+                credit_third_type=credit_third_type,
+                # image = credit_image
             )
             credit_now.save()
+            #credit_form =
             return render(request, 'new_credit.html',
-                          {'form': form, 'success': "修改成功"})
+                          {'form': form, 'success': "创建成功"})
         else:
             return render(request, 'new_credit.html', {'form': form})
 
@@ -483,31 +488,99 @@ def format_date(date_str):
     return str(datetime.date(year, month, day))
 
 
-@login_required(login_url='/accounts/login/')
-def contact_student(request):
-    if request.method == 'GET':
-        student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
-        grade_list = student_list.values("grade").distinct()
-        return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
-    else:
-        content = request.POST.get("search", "")
-        grade = request.POST.get("grade", "ALL")
-        student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
-        grade_list = student_list.values("grade").distinct()
-        student_list = __search(grade, content, student_list)
-        return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
+#分页单页最多显示数量
+PAGE_LIMIT = 3
 
+@login_required(login_url='/accounts/login/')
+def contact_student_list_view(request):
+    student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
+    grade_list = student_list.values("grade").distinct()
+
+    paginator = ExtendPaginator(student_list, PAGE_LIMIT)
+    page_id = request.GET.get('page')
+    try:
+        student_list = paginator.page(page_id)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        student_list = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        student_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
+
+    return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
+
+
+@login_required(login_url='/accounts/login/')
+def contact_student_search_list_view(request):
+    content = request.GET.get("search", "")
+    grade = request.GET.get("grade", "ALL")
+    student_list = UserProfile.objects.filter(type=UserProfile.TYPE_STUDENT)
+    grade_list = student_list.values("grade").distinct()
+    student_list = __search(grade, content, student_list)
+
+    paginator = ExtendPaginator(student_list, PAGE_LIMIT)
+    page_id = request.GET.get('page')
+    try:
+        student_list = paginator.page(page_id)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        student_list = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        student_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
+    return render(request, "contact_student.html", {'student_list': student_list, 'grade_list': grade_list})
+
+
+@login_required(login_url='/accounts/login/')
+def contact_professor_list_view(request):
+    professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+    paginator = ExtendPaginator(professor_list, PAGE_LIMIT)
+    page_id = request.GET.get('page')
+    try:
+        professor_list = paginator.page(page_id)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        professor_list = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        professor_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
+    return render(request, "contact_professor.html", {'professor_list': professor_list})
+
+def contact_professor_search_list_view(request):
+    content = request.GET.get("search", "")
+    grade = "ALL"
+    professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+    professor_list = __search(grade, content, professor_list)
+    paginator = ExtendPaginator(professor_list, PAGE_LIMIT)
+    page_id = request.GET.get('page')
+    try:
+        professor_list = paginator.page(page_id)  # 获取某页对应的记录
+    except PageNotAnInteger:  # 如果页码不是个整数
+        professor_list = paginator.page(1)  # 取第一页的记录
+    except EmptyPage:  # 如果页码太大，没有相应的记录
+        professor_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
+    return render(request, "contact_professor.html", {'professor_list': professor_list})
 
 @login_required(login_url='/accounts/login/')
 def contact_professor(request):
     if request.method == 'GET':
         professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
+        paginator = ExtendPaginator(professor_list, PAGE_LIMIT)
+        page_id = request.GET.get('page')
+        try:
+            professor_list = paginator.page(page_id)  # 获取某页对应的记录
+        except PageNotAnInteger:  # 如果页码不是个整数
+            professor_list = paginator.page(1)  # 取第一页的记录
+        except EmptyPage:  # 如果页码太大，没有相应的记录
+            professor_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
         return render(request, "contact_professor.html", {'professor_list': professor_list})
     else:
         content = request.POST.get("search", "")
         grade = "ALL"
         professor_list = UserProfile.objects.filter(type=UserProfile.TYPE_PROFESSOR)
         professor_list = __search(grade, content, professor_list)
+        paginator = ExtendPaginator(professor_list, PAGE_LIMIT)
+        page_id = request.GET.get('page')
+        try:
+            professor_list = paginator.page(page_id)  # 获取某页对应的记录
+        except PageNotAnInteger:  # 如果页码不是个整数
+            professor_list = paginator.page(1)  # 取第一页的记录
+        except EmptyPage:  # 如果页码太大，没有相应的记录
+            professor_list = paginator.page(paginator.num_pages)  # 取最后一页的记录
         return render(request, "contact_professor.html", {'professor_list': professor_list})
 
 

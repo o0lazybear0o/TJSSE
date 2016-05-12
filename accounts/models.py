@@ -83,6 +83,7 @@ class Credit(models.Model):
     ]
     grade = models.IntegerField('学分等级', choices=CREDIT_GRADE, default=0)
     value = models.IntegerField('认定学分', default=0)
+    image = models.ImageField('认证图片', upload_to='img', null=True)
 
     def save(self, *args, **kwargs):
         if self.student.userprofile.type != UserProfile.TYPE_STUDENT:

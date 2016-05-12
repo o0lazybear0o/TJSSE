@@ -1,7 +1,7 @@
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.core.paginator import Paginator
 
 class ExtendPaginator(Paginator):
-  def __init__(self, object_list, per_page, range_num=2, orphans=0, allow_empty_first_page=True):
+  def __init__(self, object_list, per_page, range_num=5, orphans=0, allow_empty_first_page=True):
       Paginator.__init__(self, object_list, per_page, orphans, allow_empty_first_page)
       self.range_num = range_num
 
@@ -13,18 +13,12 @@ class ExtendPaginator(Paginator):
       num_count = 2 * self.range_num + 1
       if self.num_pages <= num_count:
           return range(1, self.num_pages + 1)
-      num_list = []
-      num_list.append(self.page_num)
-      for i in range(1, self.range_num + 1):
-          if self.page_num - i <= 0:
-              num_list.append(num_count + self.page_num - i)
+      else:
+          if self.page_num <= self.range_num:
+              return range(1, num_count + 1)
+          elif self.page_num + self.range_num >= self.num_pages:
+              return range(self.num_pages - num_count + 1, self.num_pages + 1)
           else:
-              num_list.append(self.page_num - i)
+              return range(self.page_num - self.range_num, self.page_num + self.range_num)
 
-          if self.page_num + i <= self.num_pages:
-              num_list.append(self.page_num + i)
-          else:
-              num_list.append(self.page_num + i - num_count)
-      num_list.sort()
-      return num_list
   page_range_ext = property(_page_range_ext)

@@ -78,16 +78,23 @@ WSGI_APPLICATION = 'TJSSE.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.mysql',
+#         'NAME': 'test',
+#         'USER': 'root',
+#         'PASSWORD': 'sseadmin',
+#         'HOST': '10.60.45.70',   # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
+#         'PORT': '3306',        # Set to empty string for default.
+#     }
+#}
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'test',
-        'USER': 'root',
-        'PASSWORD': 'sseadmin',
-        'HOST': '10.60.45.70',   # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '3306',        # Set to empty string for default.
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
+
 
 
 # Password validation
@@ -126,9 +133,12 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.9/howto/static-files/
 
+
 STATIC_URL = '/static/'
 
 SITE_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), '..')
+
+MEDIA_ROOT = os.path.join(SITE_ROOT, 'files')
 
 STATIC_ROOT = os.path.join(SITE_ROOT, 'static')
 
