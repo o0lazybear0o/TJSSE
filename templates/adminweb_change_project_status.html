@@ -1,0 +1,55 @@
+{% extends 'base_adminweb.html' %}
+
+{% load staticfiles %}
+{% block adminweb_base %}
+
+    {% for x in all_type %}
+        <a id="P{{ x.id }}" type="button" class="btn btn-default"  href="../{{ x.id }}/7">{{ x.typename }}</a>
+    {% endfor %}
+    <a id="P0" type="button" class="btn btn-default"  href="../0/7">所有</a>
+    <br/>
+    <a id="S0" type="button" class="btn btn-default"  href="./0">未申请立项</a>
+    <a id="S1" type="button" class="btn btn-default"  href="./1">申请立项</a>
+    <a id="S2" type="button" class="btn btn-default"  href="./2">立项通过</a>
+    <a id="S3" type="button" class="btn btn-default"  href="./3">申请中期</a>
+    <a id="S4" type="button" class="btn btn-default"  href="./4">中期通过</a>
+    <a id="S5" type="button" class="btn btn-default"  href="./5">申请结题</a>
+    <a id="S6" type="button" class="btn btn-default"  href="./6">已结题</a>
+    <a id="S7" type="button" class="btn btn-default"  href="./7">所有</a>
+
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+            <th>Project Name</th>
+            <th>Project Type</th>
+            <th>Professor</th>
+            <th>Status</th>
+            <th>Endtime</th>
+            <th>Edit</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in project_list %}
+            <tr>
+                <td>{{ project.name }}</td>
+                <td>{{ project.project_type }}</td>
+                <td>{{ project.professor }}</td>
+                <td>{{ project.get_status }}</td>
+                <td>{{ project.endtime }}</td>
+                <td>
+                    <a href="{% url 'super_delete_project' id=project.id %}">Delete</a>
+                    /<a href="{% url 'super_edit_project' id=project.id %}">Edit</a>
+                </td>
+            </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+
+     <script>
+        list = document.location.href.split("/");
+        $('#S'+list[list.length - 1]).addClass("active");
+        $('#P'+list[list.length - 2]).addClass("active");
+    </script>
+
+{% endblock adminweb_base %}

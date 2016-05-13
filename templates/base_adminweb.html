@@ -19,13 +19,14 @@
             <li role="presentation" id="new_professor"><a href="/accounts/adminweb/new_professor">New Professor</a></li>
             <li role="presentation" id="project_type"><a href="/accounts/adminweb/project_type">Project Type</a></li>
             <li role="presentation" id="new_news"><a href="/accounts/adminweb/new_news">New News</a></li>
-            <li role="presentation" id="change_project_status"><a href="/accounts/adminweb/change_project_status">Change Project Status</a></li>
-            <li role="presentation" id="change_credit_status"><a href="{% url 'change_credit_stauts' status=3 %}">Change Credit Status</a></li>
+            <li role="presentation" id="change_project_status"><a href="{% url 'change_project_status' id=0 status=7 %}">Change Project Status</a></li>
+            <li role="presentation" id="change_credit_status"><a href="{% url 'change_credit_status' status=3 %}">Change Credit Status</a></li>
         </ul>
     </div>
 
     <script>
         list = document.location.href.split("/");
         $('#'+list[list.length - 2]).addClass("active");
+        $('#'+list[list.length - 3]).addClass("active");
     </script>
 {% endblock sidebarbase %}

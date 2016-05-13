@@ -41,6 +41,15 @@ class NewProfessor(forms.Form):
     )
 
 
+class SuperEditProjectForm(forms.Form):
+    project_status = forms.ChoiceField(
+        choices=Project.STATUS_CHOICES,
+        label='Project Status',
+        required=True,
+        error_messages={'required': '请输入项目状态'},
+    )
+
+
 class SuperEditCreditForm(forms.Form):
     credit_type = forms.ChoiceField(
         choices=Credit.CREDIT_TYPE_CHOICES,
