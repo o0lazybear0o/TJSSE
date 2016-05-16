@@ -71,6 +71,9 @@ class Project(models.Model):
         return self.name+', '+str(self.professor.get_username())
     __repr__=__str__
 
+    def apply(self):
+        return self.status == self.STATUS_BEFORE_INIT
+
 
 class Project_Student(models.Model):
     student = models.ForeignKey(User)

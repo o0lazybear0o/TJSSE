@@ -2,10 +2,11 @@ import datetime
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.db.models.sql import OR
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import redirect, render, render_to_response
 from django.contrib.auth.decorators import login_required
 from django.contrib import auth
+from django.views.decorators.csrf import csrf_exempt
 from project.models import Project, ProjectType, Project_Student, Fund
 from django.template.context import RequestContext
 from django.views import generic
@@ -170,13 +171,68 @@ def user_info_view(request):
 
 
 @login_required(login_url='/accounts/login/')
-def my_project(request):
-    username = request.user.userprofile.get_full_name()
-    project_student_list = request.user.project_student_set.all()
-    project_list = []
-    for project in project_student_list:
-        project_list.append(project.project)
-    return render(request, "accounts_userprojectlist.html", {'username': username, 'project_list': project_list})
+def my_project(request, id=0, status=7):
+    if request.user.userprofile.type == UserProfile.TYPE_STUDENT:
+        username = request.user.userprofile.get_full_name()
+        project_student_list = request.user.project_student_set.all()
+        project_list = []
+        for project in project_student_list:
+            project_list.append(project.project)
+        return render(request, "accounts_userprojectlist.html", {'username': username, 'project_list': project_list})
+    else:
+        id = int(id)
+        status = int(status)
+        if id != 0:
+            which_project = ProjectType.objects.filter(id=id)
+            if which_project.__len__() == 0:
+                return HttpResponseRedirect(reverse('home'))
+            else:
+                which_project = ProjectType.objects.get(id=id)
+        if status > 7 or status < 0:
+            return HttpResponseRedirect(reverse('home'))
+        all_type = ProjectType.objects.filter(isopening=True)
+        try:
+            if id is 0:
+                if status is 7:
+                    project_list = Project.objects.filter(professor=request.user)
+                else:
+                    project_list = Project.objects.filter(status=status, professor=request.user)
+            else:
+                if status is 7:
+                    project_list = Project.objects.filter(project_type=which_project, professor=request.user)
+                else:
+                    project_list = Project.objects.filter(project_type=which_project, status=status, professor=request.user)
+            return render(request, 'account_professorprojectlist.html', {'project_list': project_list, 'all_type': all_type})
+        except:
+            return HttpResponseRedirect(reverse('home'))
+
+
+@login_required(login_url='/accounts/login/')
+def professor_project_details(request, id):
+    id = int(id)
+    try:
+        project = Project.objects.get(id=id)
+        if project.professor != request.user:
+            return HttpResponseRedirect(reverse('home'))
+        project_student_list = project.project_student_set.all()
+        return render(request, 'accounts_professorproject.html', {'project': project, 'student_list': project_student_list})
+    except:
+        return HttpResponseRedirect(reverse('home'))
+
+
+@csrf_exempt
+@login_required(login_url='/accounts/login/')
+def change_project_status(request):
+    id = request.POST.get('id', '')
+    try:
+        project = Project.objects.get(id=id)
+    except:
+        return JsonResponse({'result': False})
+    if project.professor != request.user or project.status != Project.STATUS_BEFORE_INIT:
+        return JsonResponse({'result': False})
+    project.status = Project.STATUS_APPLY_INIT
+    project.save()
+    return JsonResponse({'result': True})
 
 
 def get_changeable(request, project):

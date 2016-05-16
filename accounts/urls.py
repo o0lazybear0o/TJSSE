@@ -15,6 +15,11 @@ urlpatterns = [
     url(r'^my_project/(?P<project_id>[0-9]+)/fund/(?P<fund_id>[0-9]+)/delete/$', views.user_project_delete_fund, name='user_project_delete_fund'),
 
 
+    url(r'^my_project/(?P<id>[0-9]+)/(?P<status>[0-9]+)$', views.my_project, name='professor_project_list'),
+    url(r'^change_project_status/$', views.change_project_status, name='change_project_status'),
+    url(r'^student_project_detail/(?P<id>[0-9]+)$', views.professor_project_details, name='professor_project_detail'),
+
+
     url(r'^my_credit/$', views.user_credit_list_view, name='user_credit_list'),
     url(r"^new_credit/$", views.new_credit, name='new_credit'),
     url(r'^edit_credit/(?P<id>[0-9]+)$', views.edit_credit, name='edit_credit'),
