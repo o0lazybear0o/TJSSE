@@ -6,15 +6,15 @@
     <table class="table table-striped table-hover">
       <thead>
         <tr>
-            <th>Credit Type</th>
+            <th>奖项</th>
 
-            <th>Name</th>
-            <th>Get Project Time</th>
-            <th>Application Time</th>
-            <th>Value</th>
-            <th>Grade</th>
-            <th>Status</th>
-            <th>Others</th>
+            <th>名称</th>
+            <th>获奖日期</th>
+            <th>申请日期</th>
+            <th>学分</th>
+            <th>等级</th>
+            <th>学分状态</th>
+            <th>其他</th>
 
         </tr>
       </thead>
@@ -38,9 +38,9 @@
                 <td>{{ credit.get_status_display }}</td>
                 <td>
                     {% if credit.status != 2 %}
-                        <a href="{% url 'delete_credit' id=credit.id %}">Delete</a>
+                        <a href="{% url 'delete_credit' id=credit.id %}">删除</a>
                         {% if credit.status == 0 %}
-                            /<a href="{% url 'edit_credit' id=credit.id %}">Edit</a>
+                            /<a href="{% url 'edit_credit' id=credit.id %}">编辑</a>
                         {% endif %}
                     {% endif %}
                 </td>

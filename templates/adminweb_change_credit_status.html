@@ -25,13 +25,7 @@
       </thead>
       <tbody>
         {% for credit in credit_list %}
-            {% if credit.status == 0 %}
-                    <tr class="warning">
-            {% elif credit.status == 1 %}
-                    <tr class="active">
-            {% else %}
-                    <tr class="success">
-            {% endif %}
+            <tr>
                 <td><a href="{% url 'get_student_credit' id=credit.student.id status=3 %}">{{ credit.student.username }}</a></td>
                 <td>{{ credit.student.first_name }}{{ credit.student.last_name }}</td>
                 <td>{{ credit.get_credit_type_display}}, {{ credit.get_credit_second_type_display }}, {{ credit.get_credit_third_type_display }}</td>
@@ -41,9 +35,15 @@
                 <td>{{ credit.create_credit_date }}</td>
                 <td>{{ credit.value }}</td>
                 <td>{{ credit.get_grade_display }}</td>
-                <td>{{ credit.get_status_display }}</td>
+                {% if credit.status == 0 %}
+                    <td class="warning">{{ credit.get_status_display }}</td>
+                 {% elif credit.status == 1 %}
+                    <td class="active">{{ credit.get_status_display }}</td>
+                 {% else %}
+                    <td class="success">{{ credit.get_status_display }}</td>
+                {% endif %}
                 <td>
-                    <a href="{% url 'super_delete_credit' id=credit.id %}">Delete</a>/<a href="{% url 'super_edit_credit' id=credit.id %}">Edit</a>
+                    <a href="{% url 'super_delete_credit' id=credit.id %}">Delete</a>/<a href="{% url 'super_edit_credit' id=credit.id %}">编辑</a>
                 </td>
             </tr>
         {% endfor %}

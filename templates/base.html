@@ -31,63 +31,63 @@
     <div class="collapse navbar-collapse" id="example-navbar-collapse">
         <ul class="nav navbar-nav">
             <li id="home">
-                <a href="{% url 'home' %}">HOME</a>
+                <a href="{% url 'home' %}">主页</a>
             </li>
             <li id="news">
-                <a href="/news">NEWS</a>
+                <a href="/news">新闻</a>
             </li>
             <li id="project">
-                <a href="/project">PROJECT</a>
+                <a href="/project">项目</a>
             </li>
             <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                    aria-expanded="false">
-                    CONTACT <span class="caret"></span>
+                    联系方式 <span class="caret"></span>
                 </a>
                 <ul class="dropdown-menu" id="contact">
-                    <li><a href="{% url 'contact_student' %}">STUDENT</a></li>
-                    <li><a href="{% url 'contact_professor' %}">PROFESSOR</a></li>
+                    <li><a href="{% url 'contact_student' %}">学生</a></li>
+                    <li><a href="{% url 'contact_professor' %}">教师</a></li>
                 </ul>
             </li>
         </ul>
         <ul class="nav navbar-nav navbar-right" id="user">
             {% if user.is_authenticated and user.is_superuser %}
-                <li><a href="/accounts/adminweb">admin-web</a></li>
+                <li><a href="/accounts/adminweb">管理员页面</a></li>
             {% endif %}
 
             {% if not user.is_authenticated %}
-                <li><a href="/login/">Log In</a></li>
+                <li><a href="/login/">登录</a></li>
             {% elif user.userprofile.type == "STUDENT" %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
                         {{ user.userprofile.get_full_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/accounts/info/">Basic Info</a></li>
-                        <li><a href="/accounts/info/change_info">Change Info</a></li>
-                        <li><a href="/accounts/info/change_password">Change Password</a></li>
+                        <li><a href="/accounts/info/">基础信息</a></li>
+                        <li><a href="/accounts/info/change_info">修改信息</a></li>
+                        <li><a href="/accounts/info/change_password">修改密码</a></li>
                         <li class="divider"></li>
-                        <li><a href="/accounts/my_project">My Project</a></li>
-                        <li><a href="/accounts/new_project">New Project</a></li>
+                        <li><a href="/accounts/my_project">我的项目</a></li>
+                        <li><a href="/accounts/new_project">项目申请</a></li>
                         <li class="divider" style="height: 1.2px"></li>
-                        <li><a href="{% url 'user_credit_list' %}">My Credit</a></li>
-                        <li><a href="{% url 'new_credit' %}">New Credit</a></li>
+                        <li><a href="{% url 'user_credit_list' %}">我的学分</a></li>
+                        <li><a href="{% url 'new_credit' %}">学分认定</a></li>
                     </ul>
                 </li>
-                <li><a href="/logout/">Log Out</a></li>
+                <li><a href="/logout/">登出</a></li>
             {% else %}
                 <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">
                         {{ user.userprofile.get_full_name }} <span class="caret"></span></a>
                     <ul class="dropdown-menu">
-                        <li><a href="/accounts/info/">Basic Info</a></li>
-                        <li><a href="/accounts/info/change_password">Change Password</a></li>
+                        <li><a href="/accounts/info/">基础信息</a></li>
+                        <li><a href="/accounts/info/change_password">修改密码</a></li>
                         <li class="divider"></li>
-                        <li><a href="/accounts/my_project/0/7">Student Project</a></li>
+                        <li><a href="/accounts/my_project/0/7">学生项目</a></li>
                     </ul>
                 </li>
-                <li><a href="/logout/">Log Out</a></li>
+                <li><a href="/logout/">登出</a></li>
             {% endif %}
         </ul>
     </div>

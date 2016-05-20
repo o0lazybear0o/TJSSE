@@ -20,12 +20,12 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-            <th>Project Name</th>
-            <th>Project Type</th>
-            <th>Professor</th>
-            <th>Status</th>
-            <th>Endtime</th>
-            <th>Edit</th>
+            <th>项目名称</th>
+            <th>项目类型</th>
+            <th>指导教师</th>
+            <th>项目状态</th>
+            <th>结题时间</th>
+            <th>编辑</th>
         </tr>
       </thead>
       <tbody>
@@ -41,7 +41,7 @@
                 <td>
                     {% if project.apply %}
 {#                        <a href="{% url 'change_project_status' id=project.id %}">Apply</a>#}
-                        <a href="" onclick="apply({{ project.id }})">Apply</a>
+                        <a href="" onclick="apply({{ project.id }})">通过</a>
                     {% endif %}
                 </td>
             </tr>

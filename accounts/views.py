@@ -124,7 +124,7 @@ def new_project(request):
             ).save()
 
             for x in partner_list:
-                if x != '':
+                if x != '' and x != request.user.username:
                     student = User.objects.get(username=x)
                     Project_Student.objects.create(
                         student=student,
@@ -275,7 +275,7 @@ def user_project_detail_view(request, project_id):
 def user_project_change_details(request, project_id):
     project = Project.objects.get(id=project_id)
     project_student_list = project.project_student_set.all()
-    judge = get_judge(request, project_student_list)
+    judge = get_changeable(request, project)
     user = request.user
     if not judge or project.status >= 6:
         return HttpResponseRedirect('/accounts/info')

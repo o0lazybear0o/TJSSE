@@ -17,15 +17,15 @@
     <a id="S6" type="button" class="btn btn-default"  href="./6">已结题</a>
     <a id="S7" type="button" class="btn btn-default"  href="./7">所有</a>
 
-    <table class="table table-bordered">
+    <table class="table table-striped table-hover">
       <thead>
         <tr>
-            <th>Project Name</th>
-            <th>Project Type</th>
-            <th>Professor</th>
-            <th>Status</th>
-            <th>Endtime</th>
-            <th>Edit</th>
+            <th>项目名称</th>
+            <th>项目类型</th>
+            <th>指导教师</th>
+            <th>项目状态</th>
+            <th>结题时间</th>
+            <th>编辑</th>
         </tr>
       </thead>
       <tbody>
@@ -37,8 +37,8 @@
                 <td>{{ project.get_status }}</td>
                 <td>{{ project.endtime }}</td>
                 <td>
-                    <a href="{% url 'super_delete_project' id=project.id %}">Delete</a>
-                    /<a href="{% url 'super_edit_project' id=project.id %}">Edit</a>
+                    <a href="{% url 'super_delete_project' id=project.id %}">删除</a>
+                    /<a href="{% url 'super_edit_project' id=project.id %}">编辑</a>
                 </td>
             </tr>
         {% endfor %}

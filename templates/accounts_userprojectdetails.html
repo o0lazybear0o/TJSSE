@@ -5,18 +5,18 @@
 {% block userprojectbase %}
 
     <h1>{{ project.name }}</h1>
-    <a href="../../">Click here to back</a>
+    <a href="../../">点击这里返回</a>
     <hr>
 
-    <p><strong>Project Type:</strong> {{ project.project_type }}</p>
-    <p><strong>Project Status:</strong> {{ project.get_status }}</p>
-    <p><strong>End Time:</strong> {{ project.endtime }}</p>
-    <p><strong>Professor:</strong> {{ project.professor }}</p>
+    <p><strong>项目类型:</strong> {{ project.project_type }}</p>
+    <p><strong>项目状态:</strong> {{ project.get_status }}</p>
+    <p><strong>结题时间:</strong> {{ project.endtime }}</p>
+    <p><strong>指导教师:</strong> {{ project.professor }}</p>
 
     {% for x in student_list %}
-        <p><strong>Member:</strong> {{ x.student.userprofile.get_full_name }}</p>
+        <p><strong>成员:</strong> {{ x.student.userprofile.get_full_name }}</p>
     {% endfor %}
 
-    <p><strong>Description:</strong> {{ project.description|escape|linebreaks }}</p>
+    <p><strong>项目描述:</strong> {{ project.description|escape|linebreaks }}</p>
 
 {% endblock userprojectbase %}
